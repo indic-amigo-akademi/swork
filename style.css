@@ -1,0 +1,111 @@
+.div{
+    height: 100%;
+    background-color: #f1f1f1;
+}
+.head{
+    height: auto;
+   background-color: rgb(255,255,255);
+   display: flex;
+   flex-direction: row;
+}
+.head1{
+   padding: 1.4% 1.8%;
+   border-right: 3px solid rgb(233, 236, 236);;
+   color:gray;
+   position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: rgb(117, 116, 116);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: rgb(236, 234, 234);}
+
+.head1:hover .dropdown-content {display: block;}
+
+.head2{
+   padding: 1.8% 0% 1.4% 1.6%;
+   font-size: 135%;
+   color:rgb(139, 133, 133);
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   transition : transform ease 200ms;
+}
+.head2:hover{
+    color: rgb(65, 63, 63);
+    transition: scale(1.2);
+}
+.head3{
+   padding: 1% 2% 1% 45%;
+   border-right: 3px solid rgb(233, 236, 236);
+   display: flex;
+   flex-direction: row;
+}
+.in_box{
+    width: 100%;
+    padding: 6% 8%;
+    background-color: rgb(233, 236, 236);
+    border: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+.in_button{
+   
+    margin: 0px;
+    padding: 6%;
+    background-color: rgb(233, 236, 236);
+    border: 0px;
+    font-size: 100%;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.head4{
+    padding: 0.8% 2%;
+   border-right: 3px solid rgb(233, 236, 236);
+}
+
+.head5{
+    padding: 1.4% 1.8%;
+   font-size: 160%;
+   color:gray;
+}
+
+.body{
+   margin : 40px;
+   display: flex;
+   justify-content: space-around;
+   flex-direction: row;
+}
+
+.card{
+   width: 25%;
+   height: auto;
+   padding: 25px;
+   background-color: rgb(252, 250, 255);
+   margin: 10px;
+   border-radius: 7px;
+   font-size: 135%;
+   font-weight: bold;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   color:rgb(139, 133, 133);
+
+}
+
+hr{
+margin-top: 20px; 
+height:2px;
+border-width:0;
+background-color:#dfdede;
+}
