@@ -1,0 +1,57 @@
+.light {
+	input {
+		color: darken($light-gray, 50%);
+	}
+	header {
+		background-color: $white;
+		.rightmenu,
+		.breadcrumb,
+		.userprofile,
+		.search-btn {
+			color: darken($light-gray, 50%);
+		}
+		.search-box {
+			background-color: $light-gray;
+		}
+		.userprofile,
+		.searchbox {
+			border-right: 5px solid $light-gray;
+		}
+	}
+	main {
+		background-color: $light-gray;
+		.board {
+			background-color: lighten($light-gray, 3%);
+			.board-header {
+				color: $gray;
+				border-bottom: 3px solid darken($light-gray, 3%);
+			}
+			.board-body {
+				.note {
+					background-color: $white;
+					.note-body {
+						color: darken($light-gray, 50%);
+					}
+					.note-footer {
+						border-top: 2px solid darken($light-gray, 3%);
+						color: darken($light-gray, 50%);
+					}
+					.new-note {
+						color: darken($light-gray, 30%);
+					}
+				}
+			}
+			&.new-board {
+				border-color: darken($light-gray, 30%);
+				color: darken($light-gray, 30%);
+			}
+		}
+	}
+
+	footer {
+		background-color: $white;
+		.copyright {
+			color: darken($light-gray, 50%);
+		}
+	}
+}
