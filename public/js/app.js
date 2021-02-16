@@ -5,6 +5,7 @@ const App = {
 			search: '',
 		};
 	},
+	mounted() {},
 	methods: {
 		toggleDark() {
 			this.darkMode = !this.darkMode;
