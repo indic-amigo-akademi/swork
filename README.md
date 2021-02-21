@@ -11,3 +11,11 @@ php -S localhost:8421
 ```
 
 PHP dev server starts at <http://localhost:8421>.
+
+## SCSS Compile
+
+
+
+```bash
+node-sass public/scss/style.scss -o public/scss/
+```

@@ -204,10 +204,10 @@ class Collection
         return [$this->createFrom($matches), $this->createFrom($noMatches)];
     }
 
-    public function __toString(): string
-    {
-        return self::class . '@' . spl_object_hash($this);
-    }
+    // public function __toString(): string
+    // {
+    //     return self::class . '@' . spl_object_hash($this);
+    // }
 
     public function clear(): void
     {
@@ -219,6 +219,9 @@ class Collection
         return array_slice($this->elements, $offset, $length, true);
     }
 
-    
+    public function __toString()
+    {
+        return implode(', ', $this->elements);
+    }
 }
 ?>

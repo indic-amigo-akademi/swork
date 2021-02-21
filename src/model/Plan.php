@@ -74,6 +74,41 @@ class Plan
     {
         return $this->boards;
     }
+
+    public function toHTML()
+    {
+        $boardHtml = '';
+        foreach ($this->boards->toArray() as $value) {
+            $boardHtml = "$boardHtml
+            {$value->toHTML()}
+            ";
+        }
+        $html = "
+        <div class=\"board-list\">
+            <div>
+                <span class=\"plan-name\">$this->name</span>(<span class=\"plan-id\">$this->id</span>)
+            </div>
+            $boardHtml
+        </div>
+        ";
+        return $html;
+    }
+
+    public function toXML()
+    {
+        $boardXml = '';
+        foreach ($this->boards->toArray() as $value) {
+            $boardXml = "$boardXml
+            {$value->toXML()}
+            ";
+        }
+        $xml = "
+        <plan name=\"$this->name\" index=\"$this->id\">
+            $boardXml
+        </plan>
+        ";
+        return $xml;
+    }
 }
 
 ?>

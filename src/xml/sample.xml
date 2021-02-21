@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plan name="Fusion" id="1">
-    <board name="In Plan" id="1">
+<plan name="Fusion" index="1">
+    <board name="In Plan" index="1">
         <note>
-            <tag name="React" id="1"/>
-            <tag name="PHP" id="2"/>
+            <tag name="React" index="1"/>
+            <tag name="PHP" index="2"/>
             <content>
                 The expanded name of the board with a length of several
                 lines (preferably three for this example)
@@ -15,10 +15,10 @@
         <created>2018-07-31T18:30:00.000Z</created>
         <modified>2018-07-31T18:30:00.000Z</modified>
     </board>
-    <board name="Done" id="2">
+    <board name="Done" index="2">
         <note>
-            <tag name="Vue" id="3"/>
-            <tag name="PHP" id="2"/>
+            <tag name="Vue" index="3"/>
+            <tag name="PHP" index="2"/>
             <content>Done</content>
             <created>2018-08-08T18:30:00.000Z</created>
             <modified>2018-08-08T18:30:00.000Z</modified>
