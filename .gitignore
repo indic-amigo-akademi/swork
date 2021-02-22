@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/vscode,vue,vuejs
-# Edit at https://www.toptal.com/developers/gitignore?templates=vscode,vue,vuejs
+# Created by https://www.toptal.com/developers/gitignore/api/vscode,vue,laravel
+# Edit at https://www.toptal.com/developers/gitignore?templates=vscode,vue,laravel
 
 ### vscode ###
 .vscode/*
@@ -21,12 +21,6 @@ docs/_book
 # TODO: where does this rule come from?
 test/
 
-### Vuejs ###
-# Recommended template: Node.gitignore
+# End of https://www.toptal.com/developers/gitignore/api/vscode,vue,laravel
 
-node_modules/
-dist/
-npm-debug.log
-yarn-error.log
-
-# End of https://www.toptal.com/developers/gitignore/api/vscode,vue,vuejs
+cache

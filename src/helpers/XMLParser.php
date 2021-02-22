@@ -13,7 +13,8 @@ class XMLParser
 
     public function parseHTML($encoding = 'UTF-8')
     {
-        $dom = new DOMDocument($this->htmlData, $encoding);
+        $dom = new DOMDocument('', $encoding);
+        $dom->loadHTML($this->htmlData);
     }
 }
 ?>

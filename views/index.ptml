@@ -1,0 +1,167 @@
+{% extends layout.ptml %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<main>
+    <div class="board-list">
+        <div class="board">
+            <div class="board-header">In Plan</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">PHP</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board with a length of several
+                        lines (preferably three for this example)
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar1.png" alt="avatar1" />
+                        </div>
+                        <div class="date">2018 Aug 1</div>
+                        <div class="extras">
+                            <span class="comment-count">2</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board is two lines long.
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar2.png" alt="avatar2" />
+                        </div>
+                        <div class="date">2018 Aug 7</div>
+                        <div class="extras">
+                            <span class="comment-count">6</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-header">Backlog</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="note-body">The expanded name of the board</div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar3.png" alt="avatar3" />
+                        </div>
+                        <div class="date">2018 Oct 12</div>
+                        <div class="extras">
+                            <ion-icon name="attach-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-header">In Progress</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">Mongo DB</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board with a length of several
+                        lines (preferably three for this example)
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar1.png" alt="avatar1" />
+                        </div>
+                        <div class="date">2018 Aug 1</div>
+                        <div class="extras">
+                            <ion-icon name="attach-outline"></ion-icon>
+                            <span class="comment-count">2</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board is two lines long.
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar2.png" alt="avatar2" />
+                        </div>
+                        <div class="date">2018 Aug 9</div>
+                        <div class="extras">
+                            <span class="comment-count">6</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Angular</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board with a length of several
+                        lines (preferably three for this example)
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar1.png" alt="avatar1" />
+                        </div>
+                        <div class="date">2018 Aug 3</div>
+                        <div class="extras">
+                            <ion-icon name="attach-outline"></ion-icon>
+                            <span class="comment-count">2</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-header">Done</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board new-board">
+            <div class="board-body">
+                <ion-icon name="add-outline"></ion-icon>
+                <span> Add new board </span>
+            </div>
+        </div>
+    </div>    
+</main>
+{% endblock %}

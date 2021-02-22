@@ -3,26 +3,32 @@ const App = {
 		return {
 			darkMode: false,
 			showProfileDropdown: false,
+			showRegisterModal: false,
+			showRegisterForm: false,
 			search: '',
 		};
 	},
-	mounted() {
-		window.onclick =function (event){
-			if(!event.target.matches('.dropdownButton')){
-				this.showProfileDropdown=false;
-			}
-		}
-	},
-	
+	mounted() {},
+
 	methods: {
+		resetPopup() {
+			this.showProfileDropdown = false;
+			this.showRegisterModal = false;
+			this.showRegisterForm = false;
+		},
 		toggleDark() {
 			this.darkMode = !this.darkMode;
 		},
-		toggleShowProfileDropdown(){
-			this.showProfileDropdown = !this.showProfileDropdown;
+		togglePopup(popup) {
+			this[popup] = !this[popup];
+		},
+		closePopup(popup) {
+			this[popup] = false;
+		},
+		openPopup(popup) {
+			this[popup] = true;
 		},
 	},
-
 };
 
-Vue.createApp(App).mount('#root');
+const app = Vue.createApp(App).mount('#root');

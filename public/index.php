@@ -1,10 +1,22 @@
 <?php
+ini_set('display_errors', 1);
+ERROR_REPORTING(E_ALL);
+
+
+require_once '../src/config.php';
 require_once '../src/helpers.php';
+foreach(glob(CONTROLLER_PATH.'/*.php') as $filename){
+    require_once $filename;
+}
+foreach(glob(MODEL_PATH.'/*.php') as $filename){
+    require_once $filename;
+}
 require_once '../src/helpers/View.php';
+require_once '../src/helpers/Template.php';
 
 // Default index page
 router('GET', '^/$', function () {
-    $boardView = new View('../views/board.html');
+    $boardView = new View('board.html');
     $boardView->name = 'Megha';
     echo $boardView->render();
 });
@@ -34,6 +46,24 @@ router('POST', '^/users$', function () {
 router('GET', '^/board/(?<id>\d+)$', function ($params) {
     echo 'You selected Board: ';
     var_dump($params);
+});
+
+router('GET', '^/entry', function () {
+    Template::view('about.ptml', [
+        'title' => 'About Page',
+        'name' => 'Megha',
+        'colors' => ['red', 'blue', 'green'],
+    ]);
+});
+
+
+router('GET', '^/test', function () {
+    $add = lambda(function($a, $b) { 
+        return $a + $b; 
+    });
+    $add1 = $add(5);
+    echo $add1(7); // 3
+    
 });
 
 header('HTTP/1.0 404 Not Found');
