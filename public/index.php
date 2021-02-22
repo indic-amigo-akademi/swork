@@ -11,7 +11,10 @@ router('GET', '^/$', function () {
 
 // GET request to /users
 router('GET', '^/users$', function () {
-    echo '<a href="users/1000">Show user: 1000</a>';
+    $userView = new View('../views/user.html');
+    $userView->name = 'Megha';
+    echo $userView->render();
+    // echo '<a href="users/1000">Show user: 1000</a>';
 });
 
 // With named parameters

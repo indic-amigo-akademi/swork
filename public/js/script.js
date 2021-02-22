@@ -9,3 +9,18 @@ hello.addEventListener('click', async function () {
 	let log = await res.text();
 	console.log(log);
 });
+
+function toggleSignup() {
+	var edit = document.getElementById("SignUp");
+	edit.style.display = "block";
+	edit = document.getElementById("Login");
+	edit.style.display = "none";
+}
+
+function toggleLogin() {
+	var edit = document.getElementById("SignUp");
+	edit.style.display = "none";
+	edit = document.getElementById("Login");
+	edit.style.display = "block";
+}
+  
