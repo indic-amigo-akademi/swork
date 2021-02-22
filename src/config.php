@@ -3,6 +3,8 @@
 define('PROJECT_ROOT', realpath(__DIR__ . '/../'));
 define('VIEW_PATH', realpath(PROJECT_ROOT . '/views'));
 define('CACHE_PATH', realpath(PROJECT_ROOT . '/cache'));
+define('CONTROLLER_PATH', realpath(PROJECT_ROOT . '/src/controller'));
+define('MODEL_PATH', realpath(PROJECT_ROOT . '/src/model'));
 
 function project_include($path = '')
 {
