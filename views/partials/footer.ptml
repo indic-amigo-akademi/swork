@@ -1,0 +1,6 @@
+<footer>
+    <div class="copyright">
+        Copyright &copy; <span id="full-year"></span> | Developed by Indic
+        WebDev Team
+    </div>
+</footer>

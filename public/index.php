@@ -2,6 +2,7 @@
 require_once '../src/config.php';
 require_once '../src/helpers.php';
 require_once '../src/helpers/View.php';
+require_once '../src/helpers/Template.php';
 
 // Default index page
 router('GET', '^/$', function () {
@@ -35,7 +36,21 @@ router('GET', '^/board/(?<id>\d+)$', function ($params) {
 });
 
 router('GET', '^/entry', function () {
-    include_once project_include('/src/tests/entry.php');
+    Template::view('about.ptml', [
+        'title' => 'About Page',
+        'name' => 'Megha',
+        'colors' => ['red', 'blue', 'green'],
+    ]);
+});
+
+
+router('GET', '^/test', function () {
+    $add = lambda(function($a, $b) { 
+        return $a + $b; 
+    });
+    $add1 = $add(5);
+    echo $add1(7); // 3
+    
 });
 
 header('HTTP/1.0 404 Not Found');

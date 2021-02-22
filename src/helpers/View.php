@@ -52,10 +52,29 @@ class View
         $comment_pattern = ['#/\*.*?\*/#s', '#(?<!:)//.*#'];
         $template = preg_replace($comment_pattern, null, $template);
 
+        // Define a regex to match any template tag
+        $tag_pattern = '/??(\w+)??/';
+
+        // Curry the function that will replace the tags with entry data
+        $callback = lambda(function ($entry, $matches) {
+            // Unserialize the object
+            $entry = unserialize($entry);
+            // Make sure the template tag has a matching array element
+            if (property_exists($entry, $matches[1])) {
+                // Grab the value from the Entry object
+                return $entry->{$matches[1]};
+            }
+
+            // Otherwise, simply return the tag as is
+            else {
+                return '??' . $matches[1] . '??';
+            }
+        });
+
         foreach ($this->vars as $key => $value) {
             $template = str_replace(
-                '$$' . $key . '$$',
-                htmlentities($value),
+                '??' . $key . '??',
+                '<?php echo htmlentities($value) ?>',
                 $template
             );
         }
