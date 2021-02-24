@@ -1,14 +1,5 @@
 <header>
 	<div class="navbar">
-		<!-- <div class="head1">
-					<ion-icon name="menu-outline"></ion-icon>
-					<div class="dropdown-content">
-						<a href="#">SignUp / Login</a>
-						<a href="#">Boards</a>
-						<a href="#">Mode</a>
-						<a href="#">Teams</a>
-					</div>
-				</div> -->
 		<div class="breadcrumb">
 			<span>Fusion</span>
 			<ion-icon name="chevron-forward-outline"></ion-icon>
@@ -16,30 +7,36 @@
 		</div>
 
 		<div class="searchbox">
-			<input
-				class="search-box"
-				type="text"
-				placeholder="Search..."
-				name="search"
-				v-model="search"
-			/>
+			<input class="search-box" type="text" placeholder="Search..." name="search" v-model="search"/>
 			<button class="search-btn" type="submit">
 				<ion-icon name="search-outline"></ion-icon>
 			</button>
 		</div>
 
 		<div class="userprofile">
-			<div class="name">[[$name]]</div>
-			<div class="avatar">
-				<img src="./megh.jpg" alt="avatar1" />
+			<div class="dropdownButton" id="profileDropdownBtn" @click.prevent="togglePopup('showProfileDropdown')">
+				<div class="name">[[$name]]</div>
+				<div class="avatar">
+					<img src="./megh.jpg" alt="avatar1"/>
+				</div>
 			</div>
+
+			<div v-if="showProfileDropdown" id="profileDropdown" class="dropdown-content">
+				<a href="#">Logout</a>
+				<a href="#" @click.prevent="resetPopup();openPopup('showRegisterModal');openPopup('showRegisterForm');">
+					Register
+				</a>
+				<a href="#" @click.prevent="resetPopup();openPopup('showRegisterModal');closePopup('showRegisterForm');">
+					Login
+				</a>
+			</div>
+
+			{% include partials/login.ptml %}
 		</div>
 
 		<div class="rightmenu">
 			<div class="btn" @click="toggleDark">
-				<ion-icon
-					:name="darkMode ? 'sunny-outline' : 'moon-outline'"
-				></ion-icon>
+				<ion-icon :name="darkMode ? 'sunny-outline' : 'moon-outline'"></ion-icon>
 			</div>
 		</div>
 	</div>

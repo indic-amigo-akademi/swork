@@ -2,23 +2,34 @@
 ini_set('display_errors', 1);
 ERROR_REPORTING(E_ALL);
 
-
 require_once '../src/config.php';
 require_once '../src/helpers.php';
-foreach(glob(CONTROLLER_PATH.'/*.php') as $filename){
+foreach (glob(CONTROLLER_PATH . '/*.php') as $filename) {
     require_once $filename;
 }
-foreach(glob(MODEL_PATH.'/*.php') as $filename){
+foreach (glob(MODEL_PATH . '/*.php') as $filename) {
     require_once $filename;
 }
 require_once '../src/helpers/View.php';
 require_once '../src/helpers/Template.php';
+require_once '../src/helpers/Parsedown.php';
+require_once '../src/helpers/Err.php';
 
 // Default index page
 router('GET', '^/$', function () {
-    $boardView = new View('board.html');
-    $boardView->name = 'Megha';
-    echo $boardView->render();
+    Template::view('index.ptml', [
+        'title' => 'Home Page',
+        'name' => 'Megha',
+        'colors' => ['red', 'blue', 'green'],
+    ]);
+});
+
+router('POST', '^/login$', function () {
+    echo UserController::login();
+});
+
+router('POST', '^/logout$', function () {
+    echo UserController::logout();
 });
 
 // GET request to /users
@@ -26,7 +37,12 @@ router('GET', '^/users$', function () {
     $userView = new View('../views/user.html');
     $userView->name = 'Megha';
     echo $userView->render();
-    // echo '<a href="users/1000">Show user: 1000</a>';
+});
+
+router('GET', '^/view$', function () {
+    $userView = new View('board.html');
+    $userView->name = 'Megha';
+    echo $userView->render();
 });
 
 // With named parameters
@@ -48,25 +64,34 @@ router('GET', '^/board/(?<id>\d+)$', function ($params) {
     var_dump($params);
 });
 
-router('GET', '^/entry', function () {
-    Template::view('about.ptml', [
-        'title' => 'About Page',
-        'name' => 'Megha',
-        'colors' => ['red', 'blue', 'green'],
-    ]);
+router('POST', '^/test$', function () {
+    echo $_POST['username'];
+    echo $_POST['password'];
 });
 
+router('GET', '^/test1$', function () {
+    echo "
+    <form method='post' action='http://localhost:8241/test'>
+    <input name='username' type='text'  placeholder='Enter your username'/> <br>
+    <input name='password' type='password'  placeholder='Enter your password'/> <br>
+    <button type='submit'>Submit</button>
+    </form>    
+    ";
+});
 
-router('GET', '^/test', function () {
-    $add = lambda(function($a, $b) { 
-        return $a + $b; 
+router('GET', '^/test2$', function () {
+    $Parsedown = new Parsedown();
+    echo $Parsedown->text('Hello _Parsedown_!');
+});
+
+router('GET', '^/test3$', function () {
+    $add = lambda(function ($a, $b) {
+        return $a + $b;
     });
     $add1 = $add(5);
     echo $add1(7); // 3
-    
 });
 
-header('HTTP/1.0 404 Not Found');
-echo '404 Not Found';
+echo Err::view();
 
 ?>

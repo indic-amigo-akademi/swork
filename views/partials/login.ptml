@@ -1,0 +1,52 @@
+<div v-if="showRegisterModal" id="registerModal" class="modal">
+	<span @click.prevent="closePopup('showRegisterModal')" class="close">
+		&times;
+	</span>
+	<div class="modal-content">
+		<div class="container_modal">
+			<div class="modal_header">
+				<div class="tab" :class="showRegisterForm? 'active': ''" @click="openPopup('showRegisterForm')">
+					Signup
+				</div>
+				<div class="tab" :class="!showRegisterForm? 'active': ''" @click="closePopup('showRegisterForm')">
+					Signin
+				</div>
+			</div>
+			<hr/>
+			<div class="modal_body">
+				<form v-if="showRegisterForm" class="signup-form" @submit.prevent="">
+					<label for="uname">Username</label>
+					<input type="text" placeholder="Enter Username" name="email" required/>
+
+					<label for="psw">Password</label>
+					<input type="password" placeholder="Enter Password" name="psw" required/>
+
+					<label for="c_psw">Confirm Password</label>
+					<input type="password" placeholder="Enter Password" name="c_psw" required/>
+
+					<div class="clearfix">
+						<button type="submit" class="bgBtn">Register</button>
+						<button type="button" @click.prevent="closePopup('showRegisterModal')" class="outlineBtn">
+							Cancel
+						</button>
+					</div>
+				</form>
+
+				<form v-else @submit.prevent="" class="sigin-form">
+					<label for="uname">Username</label>
+					<input type="text" placeholder="Enter Username" name="email" required/>
+
+					<label for="psw">Password</label>
+					<input type="password" placeholder="Enter Password" name="psw" required/>
+
+					<div class="clearfix">
+						<button type="submit" class="bgBtn">Login</button>
+						<button type="button" @click.prevent="closePopup('showRegisterModal')" class="outlineBtn">
+							Cancel
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

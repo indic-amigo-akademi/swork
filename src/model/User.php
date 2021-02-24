@@ -5,6 +5,11 @@ class User
     private int $id;
     private string $username, $password;
 
+    public function __construct()
+    {
+        $this->username = "";
+    }
+
     public function setId($id): self
     {
         $this->id = $id;

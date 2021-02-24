@@ -2,14 +2,19 @@
 @import './partials/light';
 @import './partials/dark';
 
-body {
+body,
+* {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
 	height: 100vh;
 	width: 100%;
-	box-sizing: border-box;
 	font-family: $font-family1;
 }
+
 #root,
 .container {
 	padding: 0;

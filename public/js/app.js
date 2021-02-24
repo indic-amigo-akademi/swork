@@ -1,15 +1,28 @@
+const { onMounted, onUpdated, onUnmounted } = Vue;
+
 const App = {
 	data() {
 		return {
-			darkMode: false,
+			darkMode: false || localStorage.getItem('darkMode') === 'true',
 			showProfileDropdown: false,
 			showRegisterModal: false,
 			showRegisterForm: false,
 			search: '',
 		};
 	},
-	mounted() {},
-
+	setup() {
+		onMounted(() => {
+			// console.log('mounted!');
+		});
+		onUpdated(() => {
+			const dark = app.darkMode ? 'true' : 'false';
+			localStorage.setItem('darkMode', dark);
+			// console.log('updated!');
+		});
+		onUnmounted(() => {
+			// console.log('unmounted!');
+		});
+	},
 	methods: {
 		resetPopup() {
 			this.showProfileDropdown = false;

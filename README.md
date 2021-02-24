@@ -19,3 +19,9 @@ PHP dev server starts at <http://localhost:8421>.
 ```bash
 node-sass public/scss/style.scss -o public/scss/
 ```
+
+## Make DBMS migration
+
+```bash
+/opt/lampp/bin/php commands/migration.php
+```

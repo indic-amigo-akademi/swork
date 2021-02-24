@@ -5,6 +5,7 @@ define('VIEW_PATH', realpath(PROJECT_ROOT . '/views'));
 define('CACHE_PATH', realpath(PROJECT_ROOT . '/cache'));
 define('CONTROLLER_PATH', realpath(PROJECT_ROOT . '/src/controller'));
 define('MODEL_PATH', realpath(PROJECT_ROOT . '/src/model'));
+// define('DATABASE_URL','http://localhost');
 
 function project_include($path = '')
 {
