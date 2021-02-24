@@ -1,6 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ERROR_REPORTING(E_ALL);
+// ini_set('display_errors', 1);
+
+// ERROR_REPORTING(E_ALL);
 
 require_once '../src/config.php';
 require_once '../src/helpers.php';
@@ -12,20 +13,27 @@ foreach (glob(MODEL_PATH . '/*.php') as $filename) {
 }
 require_once '../src/helpers/View.php';
 require_once '../src/helpers/Template.php';
+require_once '../src/helpers/Query.php';
 require_once '../src/helpers/Parsedown.php';
 require_once '../src/helpers/Err.php';
 
+$_SERVER['PHP_AUTH_APP'] = [
+    'database' => new Query(),
+];
+
+// $datetime = DateTime::createFromFormat('Y-m-d\TH:i:s+', '2013-02-13T08:35:34.195Z');
+session_start();
 // Default index page
 router('GET', '^/$', function () {
-    Template::view('index.ptml', [
-        'title' => 'Home Page',
-        'name' => 'Megha',
-        'colors' => ['red', 'blue', 'green'],
-    ]);
+    echo BoardController::index();
 });
 
 router('POST', '^/login$', function () {
     echo UserController::login();
+});
+
+router('POST', '^/register$', function () {
+    echo UserController::register();
 });
 
 router('POST', '^/logout$', function () {
@@ -92,6 +100,14 @@ router('GET', '^/test3$', function () {
     echo $add1(7); // 3
 });
 
-echo Err::view();
+router('GET', '^/404', function () {
+    echo Err::view();
+});
+
+router('GET', '^/500', function () {
+    echo Err::view(500, 'Internal Server Error');
+});
+
+header('Location:http://localhost:8241/404');
 
 ?>

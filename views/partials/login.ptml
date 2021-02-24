@@ -14,15 +14,15 @@
 			</div>
 			<hr/>
 			<div class="modal_body">
-				<form v-if="showRegisterForm" class="signup-form" @submit.prevent="">
+				<form v-if="showRegisterForm" class="signup-form" @submit.prevent="registerUser()">
 					<label for="uname">Username</label>
-					<input type="text" placeholder="Enter Username" name="email" required/>
+					<input type="text" placeholder="Enter Username" name="uname" v-model="username" required/>
 
 					<label for="psw">Password</label>
-					<input type="password" placeholder="Enter Password" name="psw" required/>
+					<input type="password" placeholder="Enter Password" name="psw" v-model="password" required/>
 
-					<label for="c_psw">Confirm Password</label>
-					<input type="password" placeholder="Enter Password" name="c_psw" required/>
+					<label for="cpsw">Confirm Password</label>
+					<input type="password" placeholder="Enter Password" name="cpsw" v-model="cpassword" required/>
 
 					<div class="clearfix">
 						<button type="submit" class="bgBtn">Register</button>
@@ -32,12 +32,12 @@
 					</div>
 				</form>
 
-				<form v-else @submit.prevent="" class="sigin-form">
-					<label for="uname">Username</label>
-					<input type="text" placeholder="Enter Username" name="email" required/>
+				<form v-else @submit.prevent="loginUser()" class="sigin-form">
+					<label for="username">Username</label>
+					<input type="text" placeholder="Enter Username" name="username" v-model="username" required/>
 
-					<label for="psw">Password</label>
-					<input type="password" placeholder="Enter Password" name="psw" required/>
+					<label for="password">Password</label>
+					<input type="password" placeholder="Enter Password" name="password" v-model="password" required/>
 
 					<div class="clearfix">
 						<button type="submit" class="bgBtn">Login</button>

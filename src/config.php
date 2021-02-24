@@ -17,4 +17,6 @@ function view_include($path = 'index.ptml')
     return realpath(VIEW_PATH . '/' . $path);
 }
 
+
+
 ?>

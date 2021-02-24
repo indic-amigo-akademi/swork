@@ -26,9 +26,9 @@ class Query
                 PDO::ATTR_ERRMODE,
                 PDO::ERRMODE_EXCEPTION
             );
-            print 'Connected successfully' . PHP_EOL;
+            error_log('Connected successfully' . PHP_EOL);
         } catch (Exception $e) {
-            print 'Connection failed: ' . $e->getMessage() . PHP_EOL;
+            error_log('Connection failed: ' . $e->getMessage() . PHP_EOL);
         }
     }
 
@@ -63,16 +63,20 @@ class Query
 
         try {
             $this->connection->exec($query);
-            print "Table $tablename created successfully" . PHP_EOL;
+            error_log("Table $tablename created successfully" . PHP_EOL);
+            return true;
         } catch (Exception $e) {
-            print "Creating $tablename failed: " . $e->getMessage() . PHP_EOL;
+            error_log(
+                "Creating $tablename failed: " . $e->getMessage() . PHP_EOL
+            );
+            return false;
         }
     }
 
     public function insert($tablename = 'users', $values)
     {
         if (!isset($values) || sizeof($values) <= 0) {
-            print 'Invalid values passed for insertion' . PHP_EOL;
+            error_log('Invalid values passed for insertion' . PHP_EOL);
             return;
         }
 
@@ -104,93 +108,205 @@ class Query
 
             try {
                 $query->execute($dataList);
-                print "Table $tablename inserted successfully" . PHP_EOL;
+                error_log("Table $tablename inserted successfully" . PHP_EOL);
+                return true;
             } catch (Exception $e) {
-                print "Insertion to $tablename failed: " .
-                    $e->getMessage() .
-                    PHP_EOL;
+                error_log(
+                    "Insertion to $tablename failed: " .
+                        $e->getMessage() .
+                        PHP_EOL
+                );
+                return false;
             }
         }
     }
 
-    public function deleteBy($tablename = 'users', $values)
+    public function deleteBy($tablename = 'users', $search)
     {
         $query = sprintf('DELETE FROM `%s`', $tablename);
         $where = [];
-        if (reset($values)) {
-        }
-        foreach ($values as $key => $value) {
-            if (is_numeric($value)) {
-                array_push($where, "`$key` = $value");
-            } elseif (is_string($value)) {
-                $value = mysqli_escape_string($this->connection, $value);
-                array_push($where, "`$key` = '$value'");
+        $dataList = [];
+
+        foreach ($search as $key => $value) {
+            if (is_numeric($value) || is_string($value)) {
+                array_push($where, "`$key` = ?");
+                array_push($dataList, $value);
             } elseif (is_array($value)) {
                 $arr = $value;
                 $or_arr = [];
                 foreach ($arr as $param) {
-                    if (is_numeric($value)) {
-                        array_push($or_arr, "`$key` = $param");
-                    } elseif (is_string($param)) {
-                        $value = mysqli_escape_string(
-                            $this->connection,
-                            $value
-                        );
-                        array_push($or_arr, "`$key` = '$param'");
+                    if (is_numeric($param) || is_string($param)) {
+                        array_push($or_arr, "`$key` = ?");
+                        array_push($dataList, $param);
                     }
                 }
                 array_push($where, join(' OR ', $or_arr));
             }
         }
         $where = join(' AND ', $where);
-        $query = $query . ' WHERE ' . $where;
+        $query = $this->connection->prepare($query . ' WHERE ' . $where);
         try {
-            $this->connection->exec($query);
-            print "Table $tablename deleted successfully" . PHP_EOL;
+            $query->execute($dataList);
+            error_log("Table $tablename deleted successfully" . PHP_EOL);
+            return true;
         } catch (Exception $e) {
-            print "Deleting $tablename failed: " . $e->getMessage() . PHP_EOL;
+            error_log(
+                "Deleting $tablename failed: " . $e->getMessage() . PHP_EOL
+            );
+            return false;
         }
     }
 
-    public function updateBy($tablename = 'users', $values, $newValues)
+    public function updateBy($tablename = 'users', $search, $values)
     {
-        $query = sprintf('UPDATE FROM `%s`', $tablename);
+        $query = sprintf('UPDATE `%s`', $tablename);
+        $setList = [];
         $where = [];
-        foreach ($values as $key => $value) {
-            if (is_numeric($value)) {
-                array_push($where, "`$key` = $value");
-            } elseif (is_string($value)) {
-                array_push($where, "`$key` = '$value'");
-            } elseif (is_array($value)) {
-                $arr = $value;
-                $or_arr = [];
-                foreach ($arr as $param) {
-                    if (is_numeric($value)) {
-                        array_push($or_arr, "`$key` = $param");
-                    } elseif (is_string($param)) {
-                        array_push($or_arr, "`$key` = '$param'");
-                    }
+        $dataList = [];
+
+        if (isset($values)) {
+            foreach ($values as $key => $value) {
+                if (is_numeric($value) || is_string($value)) {
+                    array_push($setList, "$key=?");
+                    array_push($dataList, $value);
                 }
-                array_push($where, join(' OR ', $or_arr));
             }
+            $setList = join(' , ', $setList);
+            $query .= ' SET ' . $setList;
         }
-        $where = join(' AND ', $where);
-        $query = $query . ' WHERE ' . $where;
+
+        if (isset($search)) {
+            foreach ($search as $key => $value) {
+                if (is_numeric($value) || is_string($value)) {
+                    array_push($where, "`$key` = ?");
+                    array_push($dataList, $value);
+                } elseif (is_array($value)) {
+                    $arr = $value;
+                    $or_arr = [];
+                    foreach ($arr as $param) {
+                        if (is_numeric($param) || is_string($param)) {
+                            array_push($or_arr, "`$key` = ?");
+                            array_push($dataList, $param);
+                        }
+                    }
+                    array_push($where, join(' OR ', $or_arr));
+                }
+            }
+            $where = join(' AND ', $where);
+            $query .= ' WHERE ' . $where;
+        }
+        $query = $this->connection->prepare($query);
         try {
-            $this->connection->exec($query);
-            print "Table $tablename deleted successfully" . PHP_EOL;
+            $query->execute($dataList);
+            error_log("Table $tablename updated successfully" . PHP_EOL);
+            return true;
         } catch (Exception $e) {
-            print "Deleting $tablename failed: " . $e->getMessage() . PHP_EOL;
+            error_log(
+                "Updating $tablename failed: " . $e->getMessage() . PHP_EOL
+            );
+            return false;
         }
     }
 
-    public function findBy($tablename = 'users', $values)
-    {
+    public function findAllBy(
+        $tablename = 'users',
+        $search = null,
+        $select = null
+    ) {
+        if (isset($select)) {
+            if (is_array($select)) {
+                $select = join(',', $select);
+            }
+            $query = sprintf('SELECT %s FROM `%s`', $select, $tablename);
+        } else {
+            $query = sprintf('SELECT * FROM `%s`', $tablename);
+        }
+        $where = [];
+        $dataList = [];
+
+        if (isset($search)) {
+            foreach ($search as $key => $value) {
+                if (is_numeric($value) || is_string($value)) {
+                    array_push($where, "`$key` = ?");
+                    array_push($dataList, $value);
+                } elseif (is_array($value)) {
+                    $arr = $value;
+                    $or_arr = [];
+                    foreach ($arr as $param) {
+                        if (is_numeric($param) || is_string($param)) {
+                            array_push($or_arr, "`$key` = ?");
+                            array_push($dataList, $param);
+                        }
+                    }
+                    array_push($where, join(' OR ', $or_arr));
+                }
+            }
+            $where = join(' AND ', $where);
+            $query .= ' WHERE ' . $where;
+        }
+        $query = $this->connection->prepare($query);
+        try {
+            $query->execute($dataList);
+            return $query->fetchAll();
+        } catch (Exception $e) {
+            error_log(
+                "Selecting $tablename failed: " . $e->getMessage() . PHP_EOL
+            );
+            return null;
+        }
+    }
+
+    public function findOneBy(
+        $tablename = 'users',
+        $search = null,
+        $select = null
+    ) {
+        if (isset($select)) {
+            if (is_array($select)) {
+                $select = join(',', $select);
+            }
+            $query = sprintf('SELECT %s FROM `%s`', $select, $tablename);
+        } else {
+            $query = sprintf('SELECT * FROM `%s`', $tablename);
+        }
+        $where = [];
+        $dataList = [];
+
+        if (isset($search)) {
+            foreach ($search as $key => $value) {
+                if (is_numeric($value) || is_string($value)) {
+                    array_push($where, "`$key` = ?");
+                    array_push($dataList, $value);
+                } elseif (is_array($value)) {
+                    $arr = $value;
+                    $or_arr = [];
+                    foreach ($arr as $param) {
+                        if (is_numeric($param) || is_string($param)) {
+                            array_push($or_arr, "`$key` = ?");
+                            array_push($dataList, $param);
+                        }
+                    }
+                    array_push($where, join(' OR ', $or_arr));
+                }
+            }
+            $where = join(' AND ', $where);
+            $query .= ' WHERE ' . $where;
+        }
+        $query = $this->connection->prepare($query);
+        try {
+            $query->execute($dataList);
+            return $query->fetch();
+        } catch (Exception $e) {
+            error_log(
+                "Selecting $tablename failed: " . $e->getMessage() . PHP_EOL
+            );
+            return false;
+        }
     }
 
     public function is_live()
     {
-        return isset($this->connection);
+        return isset($this->connection) && !is_null($this->connection);
     }
 
     public function reconnect()
@@ -207,9 +323,11 @@ class Query
                 PDO::ATTR_ERRMODE,
                 PDO::ERRMODE_EXCEPTION
             );
-            print 'Connected successfully' . PHP_EOL;
+            error_log('Connected successfully' . PHP_EOL);
+            return true;
         } catch (Exception $e) {
-            print 'Connection failed: ' . $e->getMessage() . PHP_EOL;
+            error_log('Connection failed: ' . $e->getMessage() . PHP_EOL);
+            return false;
         }
     }
 

@@ -17,20 +17,46 @@ if ($db->is_live()) {
         true
     );
 
-    $db->insert(
-        'users',
-        [
-            [
-                'username' => "bobby",
-                'password' => 'iloveyou',
-            ],
-            [
-                'username' => 'ria',
-                'password' => 'iloveyou',
-            ],
-        ],
-        true
-    );
+    // $db->insert(
+    //     'users',
+    //     [
+    //         [
+    //             'username' => 'bobby',
+    //             'password' => 'iloveyou',
+    //         ],
+    //         [
+    //             'username' => 'ria',
+    //             'password' => 'iloveyou',
+    //         ],
+    //         [
+    //             'username' => 'dilip',
+    //             'password' => 'iloveyou',
+    //         ],
+    //         [
+    //             'username' => 'jatin',
+    //             'password' => 'iloveyou',
+    //         ],
+    //     ],
+    //     true
+    // );
+
+    // $db->deleteBy('users', [
+    //     'username' => ['ria', 'dilip'],
+    //     'password' => 'iloveyou',
+    // ]);
+
+    // $users = $db->findOneBy('users', [
+    //     'username' => ['ria', 'dilip'],
+    //     'password' => 'iloveyou',
+    // ]);
+
+    // print_r($users);
+
+    // $users = $db->updateBy('users', [
+    //     'username' => ['ria', 'dilip']
+    // ],[
+    //     'password' => 'bhaskar'
+    // ]);
 
     $db->close();
 }

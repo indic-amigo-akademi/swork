@@ -15,29 +15,36 @@
 
 		<div class="userprofile">
 			<div class="dropdownButton" id="profileDropdownBtn" @click.prevent="togglePopup('showProfileDropdown')">
-				<div class="name">[[$name]]</div>
-				<div class="avatar">
-					<img src="./megh.jpg" alt="avatar1"/>
+					{% if(isset($user)): %}
+						<div class="name">[[$user->getUsername()]]</div>
+					{% else: %}
+						<div class="name">Guest</div>
+					{% endif; %}
+					<div class="avatar">
+						<img src="/avatar/avatar1.png" alt="avatar1"/>
+					</div>
+				</div>
+
+				<div v-if="showProfileDropdown" id="profileDropdown" class="dropdown-content">
+					{% if(!isset($user)): %}
+						<a href="#" @click.prevent="resetPopup();openPopup('showRegisterModal');openPopup('showRegisterForm');">
+							Register
+						</a>
+						<a href="#" @click.prevent="resetPopup();openPopup('showRegisterModal');closePopup('showRegisterForm');">
+							Login
+						</a>
+					{% else: %}
+						<a href="#" @click.prevent="logoutUser()">Logout</a>
+					{% endif; %}
+				</div>
+
+				{% include partials/login.ptml %}
+			</div>
+
+			<div class="rightmenu">
+				<div class="btn" @click="toggleDark">
+					<ion-icon :name="darkMode ? 'sunny-outline' : 'moon-outline'"></ion-icon>
 				</div>
 			</div>
-
-			<div v-if="showProfileDropdown" id="profileDropdown" class="dropdown-content">
-				<a href="#">Logout</a>
-				<a href="#" @click.prevent="resetPopup();openPopup('showRegisterModal');openPopup('showRegisterForm');">
-					Register
-				</a>
-				<a href="#" @click.prevent="resetPopup();openPopup('showRegisterModal');closePopup('showRegisterForm');">
-					Login
-				</a>
-			</div>
-
-			{% include partials/login.ptml %}
 		</div>
-
-		<div class="rightmenu">
-			<div class="btn" @click="toggleDark">
-				<ion-icon :name="darkMode ? 'sunny-outline' : 'moon-outline'"></ion-icon>
-			</div>
-		</div>
-	</div>
-</header>
+	</header>

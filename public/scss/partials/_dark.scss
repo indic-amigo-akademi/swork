@@ -1,6 +1,10 @@
 .dark {
 	input {
-		color: lighten($gray, 50%);
+		color: $light-gray;
+		background-color: lighten($gray, 10%);
+		:focus{
+			background-color: lighten($gray, 20%);
+		}
 	}
 	header {
 		background-color: $gray;
