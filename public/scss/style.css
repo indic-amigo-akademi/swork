@@ -521,7 +521,7 @@ ion-icon {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.7);
   padding-top: 50px;
@@ -533,7 +533,7 @@ ion-icon {
 
 .modal .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 10% auto;
+  margin: 8% auto 20% auto;
   border: 0px;
   border-radius: 5px;
   width: 44%;
@@ -656,5 +656,97 @@ ion-icon {
   .signupbtn {
     width: 100%;
   }
+}
+
+.dash-container {
+  width: 100%;
+  padding: 60px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dash-container .btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 25px;
+}
+
+.dash-container .btn-container .loginbtn {
+  padding: 14px 30px;
+  background-color: white;
+  border-color: #1086fc;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #1086fc;
+  border-radius: 4px;
+  margin-right: 20px;
+}
+
+.dash-container .btn-container .loginbtn:hover {
+  background-color: #1086fc;
+  color: white;
+}
+
+.dash-container .btn-container .registerbtn {
+  padding: 14px 23px;
+  background-color: #1086fc;
+  color: white;
+  border-color: #1086fc;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border-radius: 4px;
+  margin-left: 20px;
+}
+
+.dash-container .btn-container .registerbtn:hover {
+  background-color: white;
+  color: #1086fc;
+}
+
+.dash-container .dashboard {
+  margin: 50px 0px;
+  text-align: center;
+  font-size: 1150%;
+  font-weight: bold;
+  color: #575656;
+}
+
+.dash-container .dashboard:hover {
+  opacity: 0.9;
+}
+
+.dash-container .plan-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.dash-container .plan-container h1 {
+  color: #027efa;
 }
 /*# sourceMappingURL=style.css.map */

@@ -11,6 +11,19 @@ hello.addEventListener("click", async function() {
 });
 
 /* megha */
+function toggleBeforeLogin() {
+  var edit = document.getElementById("dash1");
+  edit.style.display = "block";
+  edit = document.getElementById("dash2");
+  edit.style.display = "none";
+}
+
+function toggleAfterLogin() {
+  var edit = document.getElementById("dash1");
+  edit.style.display = "none";
+  edit = document.getElementById("dash2");
+  edit.style.display = "block";
+}
 
 function toggleSignup() {
   var edit = document.getElementById("SignUp");

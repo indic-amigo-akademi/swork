@@ -3,8 +3,14 @@ require_once '../src/helpers.php';
 require_once '../src/helpers/View.php';
 
 // Default index page
-router('GET', '^/$', function () {
+router('GET', '^/view1$', function () {
     $boardView = new View('../views/board.html');
+    $boardView->name = 'Megha';
+    echo $boardView->render();
+});
+
+router('GET', '^/view2$', function () {
+    $boardView = new View('../views/user.html');
     $boardView->name = 'Megha';
     echo $boardView->render();
 });
