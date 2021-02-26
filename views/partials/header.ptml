@@ -1,9 +1,11 @@
 <header>
 	<div class="navbar">
 		<div class="breadcrumb">
-			<span>Fusion</span>
-			<ion-icon name="chevron-forward-outline"></ion-icon>
-			<span>Boards</span>
+			{% foreach($breadcrumb as $b): %}
+				<span>[[$b]]</span>
+			{% endforeach; %}
+			{# <ion-icon name="chevron-forward-outline"></ion-icon>
+			<span>Boards</span> #}
 		</div>
 
 		<div class="searchbox">

@@ -6,13 +6,13 @@
 {% block content %}
 	<main>
 		<div class="board-list">
-			<div class="board" v-for="board,bkey in boards" :key="bkey" @dragstart="dragStartBoard($event,key)" @dragend="dragEndBoard($event)" @dragover="dragOverBoard($event,key)" draggable="true">
+			<div class="board" v-for="board,bkey in boards" :key="bkey" {# @dragstart="dragStartBoard($event,[bkey])" @dragend="dragEndBoard($event)" @dragover="dragOverBoard($event,[bkey])" @dragover="dragOverNote($event,[bkey])" #} draggable="true">
 				<div class="board-header">{{board.name}}</div>
 				<div class="board-body">
 
-					<div class="note" v-for="note,nkey in board.notes" :key="nkey" draggable>
+					<div class="note" v-for="note,nkey in board.notes" :key="nkey" {# @dragstart="dragStartNote($event,[bkey,nkey])" @dragend="dragEndNote($event)" @dragover="dragOverNote($event,[bkey,nkey])" #} draggable="true">
 						<div class="note-tags">
-							<span class="tag" v-for="tag,tkey in note.tags" :key="tkey">{{tag.value}}</span>
+							<span class="tag" v-for="tag,tkey in note.tags" :key="tkey" :index="tkey">{{tag.value}}</span>
 						</div>
 						<div class="note-body">
 							<code v-html="marked(note.content)"></code>
@@ -24,9 +24,9 @@
 						</div>
 					</div>
 
-					<div class="note" @click="openPopup('showNoteModal');setCurrentBoard(bkey)">
+					<div class="note notDraggable" @click="openPopup('showNoteModal');setCurrentBoard(bkey)">
 						<div class="new-note">
-							<ion-icon name="add-outline"></ion-icon>
+							<i class="fas fa-plus"></i>
 						</div>
 					</div>
 				</div>
@@ -38,13 +38,15 @@
 
 			<div class="board new-board" @click.prevent="addNewBoard">
 				<div class="board-body">
-					<ion-icon name="add-outline"></ion-icon>
+					<i class="fas fa-plus" aria-hidden="true"></i>
 					<span>
 						Add new board
 					</span>
 				</div>
 			</div>
 		</div>
+
+
 		<div v-if="showNoteModal" class="modal">
 			<span class="close" @click="closePopup('showNoteModal')" title="Close Modal">&times;</span>
 			<div class="modal-content">
@@ -84,9 +86,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="btn-container">
+			<button class="bgBtn blueBtn" @click="loadXML">LoadXML</button>
+			<button class="bgBtn blueBtn" @click="saveXML">SaveXML</button>
+		</div>
 	</main>
 {% endblock %}
 
 {% block script %}
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
 	<script src="[[asset('/js/parser.js')]]"></script>
+	<script src="[[asset('/js/dragdrop.js')]]"></script>
 {% endblock %}

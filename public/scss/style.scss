@@ -46,8 +46,18 @@ header {
 		top: 0.25rem;
 		span {
 			display: inline-block;
+			&::after{
+				content: '>';
+				display: inline-block;
+				font-weight: 600;
+				font-family: serif;
+				padding: 0 0.125rem;
+			}
 			&:last-child {
 				font-weight: bold;
+				&::after{
+					display: none;
+				}
 			}
 		}
 		&:hover {

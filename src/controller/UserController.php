@@ -6,12 +6,16 @@ class UserController
     {
         $db = $_SERVER['PHP_AUTH_APP']['database'];
 
+        $breadcrumb = ['user'=>'Guest'];
+
         if (isset($_SESSION['PHP_AUTH_USER'])) {
             $id = $_SESSION['PHP_AUTH_USER']->getId();
 
             $plans = $db->findAllBy('plans', [
                 'author' => $id,
             ]);
+            
+            $breadcrumb['user']=$_SESSION['PHP_AUTH_USER']->getUsername();
 
             $plans = json_decode(json_encode($plans));
 
@@ -19,12 +23,14 @@ class UserController
                 'title' => "Dashboard | {$_SESSION['PHP_AUTH_USER']->getUsername()}",
                 'user' => $_SESSION['PHP_AUTH_USER'],
                 'plans' => $plans,
+                'breadcrumb' => json_decode(json_encode($breadcrumb)),
             ]);
         }
 
         return Template::view('user.ptml', [
             'title' => 'Home Page',
             'user' => null,
+            'breadcrumb' => json_decode(json_encode($breadcrumb)),
         ]);
     }
 

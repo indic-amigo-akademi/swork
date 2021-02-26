@@ -45,31 +45,7 @@ const App = {
 				success: '',
 				error: '',
 			},
-			boards: [
-				{
-					name: 'hello',
-					notes: [],
-					created: '2021-02-26T11:11:03.262Z',
-					edited: '2021-02-26T11:11:03.262Z',
-				},
-				{
-					name: 'hi',
-					notes: [
-						{
-							created: '2021-02-26T16:52:29.891Z',
-							edited: '2021-02-26T16:52:29.891Z',
-							tags: [
-								{ index: 0, value: 'PHP' },
-								{ index: 1, value: 'Symfony' },
-							],
-							content: 'My first Project on Symfony',
-						},
-					],
-
-					created: '2021-02-26T11:11:05.876Z',
-					edited: '2021-02-26T11:11:05.876Z',
-				},
-			],
+			boards: [],
 		};
 	},
 	setup() {
@@ -77,9 +53,9 @@ const App = {
 			// console.log('mounted!');
 		});
 		onUpdated(() => {
-			const dark = app.darkMode ? 'true' : 'false';
+			const dark = states.darkMode ? 'true' : 'false';
 			localStorage.setItem('darkMode', dark);
-			// console.log('updated!');
+			console.log('updated!');
 		});
 		onUnmounted(() => {
 			// console.log('unmounted!');
@@ -292,30 +268,126 @@ const App = {
 			};
 			this.boards[parseInt(this.board)].notes.push(newNote);
 		},
-		dragStartBoard(event, targetIndex) {
-			this.drag = { targetIndex };
-			event.target.style.opacity = '0.4';
-			event.dataTransfer.effectAllowed = 'move';
-		},
-		dragEndBoard(event) {
-			event.target.style.opacity = '1';
-			const { targetIndex, sourceIndex } = this.drag,
-				boards = this.boards;
-			let temp = boards[targetIndex];
-			boards[targetIndex] = boards[sourceIndex];
-			boards[sourceIndex] = temp;
-			this.boards = boards;
-			this.drag = null;
-		},
-		dragOverBoard(event, sourceIndex) {
-			if (event.stopPropagation) {
-				event.stopPropagation(); // stops the browser from redirecting.
-			}
-			// e.originalEvent.dataTransfer.setData("text/plain", `${row}_${col}`);
-			this.drag = { ...this.drag, sourceIndex };
-		},
+		// dragStartBoard(event, targetIndex) {
+		// 	this.drag = { target: { index: targetIndex, element: event.target } };
+		// 	event.target.style.opacity = '0.4';
+		// 	event.dataTransfer.effectAllowed = 'move';
+		// },
+		// dragEndBoard(event) {
+		// 	event.target.style.opacity = '1';
+		// 	const { target, source } = this.drag,
+		// 		boards = this.boards;
+		// 	console.log(target);
+		// 	let temp = boards[target.index[0]];
+		// 	boards[target.index[0]] = boards[source.index[0]];
+		// 	boards[source.index[0]] = temp;
+		// 	this.boards = boards;
+		// 	// this.drag = null;
+		// },
+		// dragOverBoard(event, sourceIndex) {
+		// 	if (event.stopPropagation) {
+		// 		event.stopPropagation(); // stops the browser from redirecting.
+		// 	}
+		// 	// e.originalEvent.dataTransfer.setData("text/plain", `${row}_${col}`);
+		// 	this.drag = {
+		// 		...this.drag,
+		// 		source: { index: sourceIndex, element: event.target },
+		// 	};
+		// },
+		// dragStartNote(event, sourceIndex) {
+		// 	this.drag = { source: { index: sourceIndex, element: event.target } };
+		// 	event.target.style.opacity = '0.4';
+		// 	event.dataTransfer.effectAllowed = 'move';
+		// },
+		// dragEndNote(event) {
+		// 	event.target.style.opacity = '1';
+		// 	if (this.drag !== null) {
+		// 		const { target, source } = this.drag,
+		// 			boards = this.boards;
+		// 		if (source.index.length == 2) {
+		// 			let t1 = boards[source.index[0]].notes.splice(source.index[2], 1);
+		// 			if (target.index.length == 2) {
+		// 				boards[target.index[0]].notes.splice(target.index[1], 0, t1);
+		// 			} else if (target.index.length === 1) {
+		// 				boards[target.index[0]].notes.push(t1);
+		// 			}
+		// 		}
+		// 		this.boards = boards;
+		// 	}
+		// 	// boards[target.index] = boards[source.index];
+		// 	// boards[source.index] = temp;
+		// 	// this.boards = boards;
+		// 	// this.drag = null;
+		// },
+		// dragOverNote(event, targetIndex) {
+		// 	if (event.stopPropagation) {
+		// 		event.stopPropagation(); // stops the browser from redirecting.
+		// 	}
+		// 	// e.originalEvent.dataTransfer.setData("text/plain", `${row}_${col}`);
+		// 	this.drag = {
+		// 		...this.drag,
+		// 		target: { index: targetIndex, element: event.target },
+		// 	};
+		// },
 		marked(content) {
 			return marked(content);
+		},
+		async saveXML() {
+			let data = parseJsonToXML(this.boards),
+				slug = location.pathname.split('/');
+			slug = slug[slug.length - 1];
+			const formData = new FormData();
+			formData.append('data', data);
+			formData.append('slug', slug);
+			const res = await fetch('http://localhost:8241/plan/save', {
+				method: 'post',
+				body: formData,
+			});
+
+			let jsonData = await res.json();
+			if (jsonData.error) {
+				this.alert.errors = jsonData;
+				await Swal.fire({
+					...config,
+					title: 'Saving error',
+					text: jsonData.error,
+					icon: 'error',
+				});
+				location.href = `http://localhost:8241/${this.alert.errors.status}`;
+			} else {
+				this.alert.success = jsonData;
+				await Swal.fire({
+					...config,
+					title: 'Saving success',
+					text: jsonData.msg,
+					icon: 'success',
+				});
+			}
+			location.reload();
+		},
+		async loadXML() {
+			let slug = location.pathname.split('/');
+			slug = slug[slug.length - 1];
+			const formData = new FormData();
+			formData.append('slug', slug);
+			const res = await fetch('http://localhost:8241/plan/load', {
+				method: 'post',
+				body: formData,
+			});
+			let jsonData = await res.json();
+			if (jsonData.error) {
+				this.alert.errors = jsonData;
+				await Swal.fire({
+					...config,
+					title: 'Saving error',
+					text: this.alert.errors.error,
+					icon: 'error',
+				});
+				location.href = `http://localhost:8241/${this.alert.errors.status}`;
+			} else {
+				boards = parseXMLToJson(jsonData.data);
+				this.boards = boards;
+			}
 		},
 	},
 };

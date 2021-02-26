@@ -49,6 +49,7 @@ class Template
 
     static function compileCode($code)
     {
+        $code = self::compileComments($code);
         $code = self::compileBlock($code);
         $code = self::compileYield($code);
         $code = self::compileEscapedEchos($code);
@@ -80,6 +81,11 @@ class Template
             $code
         );
         return $code;
+    }
+
+    static function compileComments($code)
+    {
+        return preg_replace('~\{#\s*(.+?)\s*\#}~is','',$code);
     }
 
     static function compilePHP($code)

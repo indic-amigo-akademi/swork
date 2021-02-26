@@ -311,8 +311,20 @@ header .breadcrumb span {
   display: inline-block;
 }
 
+header .breadcrumb span::after {
+  content: '>';
+  display: inline-block;
+  font-weight: 600;
+  font-family: serif;
+  padding: 0 0.125rem;
+}
+
 header .breadcrumb span:last-child {
   font-weight: bold;
+}
+
+header .breadcrumb span:last-child::after {
+  display: none;
 }
 
 header .breadcrumb:hover {

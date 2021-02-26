@@ -75,6 +75,13 @@ router('POST', '^/plan/new$', function () {
     echo PlanController::new();
 });
 
+router('POST', '^/plan/save$', function () {
+    echo PlanController::saveXML();
+});
+
+router('POST', '^/plan/load$', function () {
+    echo PlanController::loadXML();
+});
 
 router('POST', '^/test$', function () {
     echo $_POST['username'];

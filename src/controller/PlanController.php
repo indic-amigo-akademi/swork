@@ -11,12 +11,17 @@ class PlanController
         ]);
 
         if (isset($_SESSION['PHP_AUTH_USER'])) {
+            $breadcrumb['user'] = $_SESSION['PHP_AUTH_USER']->getUsername();
+
             if (!is_null($plan) && isset($plan) && $plan) {
+                $breadcrumb['plan'] = $plan['name'];
                 return Template::view('board.ptml', [
                     'title' => 'Plan Viewer',
                     'user' => isset($_SESSION['PHP_AUTH_USER'])
                         ? $_SESSION['PHP_AUTH_USER']
                         : null,
+                    'breadcrumb' => json_decode(json_encode($breadcrumb)),
+                    'plan' => json_decode(json_encode($plan)),
                 ]);
             } else {
                 return '<script>
@@ -82,7 +87,7 @@ class PlanController
         $slug = $_POST['slug'];
 
         $file_path = PROJECT_ROOT . "/public/data/{$slug}.xml";
-        if (!file_exists($file_path)) {
+        if (file_exists($file_path)) {
             $data = file_get_contents($file_path);
             if (!is_null($data) && isset($data) && $data) {
                 return json_encode([
@@ -103,10 +108,9 @@ class PlanController
         $slug = $_POST['slug'];
         try {
             $file_path = PROJECT_ROOT . "/public/data/{$slug}.xml";
-            if (!file_exists($file_path)) {
-                mkdir($file_path, 0744);
-                file_put_contents($file_path, $data);
-            }
+
+            file_put_contents($file_path, $data);
+
             return json_encode([
                 'data' => $data,
                 'status' => '200',
