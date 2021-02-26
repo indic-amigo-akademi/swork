@@ -17,6 +17,13 @@ function view_include($path = 'index.ptml')
     return realpath(VIEW_PATH . '/' . $path);
 }
 
+if (!file_exists(PROJECT_ROOT . '/cache')) {
+    mkdir(PROJECT_ROOT . '/cache', 0755, true);
+}
 
+function asset($url = '')
+{
+    return "http://{$_SERVER['SERVER_NAME']}:{$_SERVER['SERVER_PORT']}{$url}";
+}
 
 ?>

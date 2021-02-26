@@ -7,7 +7,7 @@ window.onclick = function (event) {
 		profileDropdownBtn = document.getElementById('profileDropdownBtn'),
 		profileDropdown = document.getElementById('profileDropdown');
 	if (event.target === registerModal) {
-		app.closePopup('showRegisterModal');
+		states.closePopup('showRegisterModal');
 	}
 	if (
 		event.target !== profileDropdownBtn &&
@@ -15,6 +15,6 @@ window.onclick = function (event) {
 		event.target !== profileDropdown &&
 		event.target.parentNode !== profileDropdown
 	) {
-		app.closePopup('showProfileDropdown');
+		states.closePopup('showProfileDropdown');
 	}
 };

@@ -1,9 +1,5 @@
 <?php
 
-include 'src/helpers/Query.php';
-
-$db = new Query();
-
 if ($db->is_live()) {
     $db->createTable(
         'users',
@@ -57,7 +53,5 @@ if ($db->is_live()) {
     // ],[
     //     'password' => 'bhaskar'
     // ]);
-
-    $db->close();
 }
 ?>

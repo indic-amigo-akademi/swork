@@ -1,0 +1,92 @@
+{% extends layout.ptml %}
+
+{% block title %}Home Page
+{% endblock %}
+
+{% block content %}
+	<main>
+		<div class="board-list">
+			<div class="board" v-for="board,bkey in boards" :key="bkey" @dragstart="dragStartBoard($event,key)" @dragend="dragEndBoard($event)" @dragover="dragOverBoard($event,key)" draggable="true">
+				<div class="board-header">{{board.name}}</div>
+				<div class="board-body">
+
+					<div class="note" v-for="note,nkey in board.notes" :key="nkey" draggable>
+						<div class="note-tags">
+							<span class="tag" v-for="tag,tkey in note.tags" :key="tkey">{{tag.value}}</span>
+						</div>
+						<div class="note-body">
+							<code v-html="marked(note.content)"></code>
+							<div class="note-content d-none">{{note.content}}</div>
+						</div>
+						<div class="d-none">
+							<div class="note-created">{{note.created}}</div>
+							<div class="note-edited">{{note.edited}}</div>
+						</div>
+					</div>
+
+					<div class="note" @click="openPopup('showNoteModal');setCurrentBoard(bkey)">
+						<div class="new-note">
+							<ion-icon name="add-outline"></ion-icon>
+						</div>
+					</div>
+				</div>
+				<div class="d-none">
+					<div class="board-created">{{board.created}}</div>
+					<div class="board-edited">{{board.edited}}</div>
+				</div>
+			</div>
+
+			<div class="board new-board" @click.prevent="addNewBoard">
+				<div class="board-body">
+					<ion-icon name="add-outline"></ion-icon>
+					<span>
+						Add new board
+					</span>
+				</div>
+			</div>
+		</div>
+		<div v-if="showNoteModal" class="modal">
+			<span class="close" @click="closePopup('showNoteModal')" title="Close Modal">&times;</span>
+			<div class="modal-content">
+				<div class="container_modal">
+					<div class="modal_header">
+						<h3 class="board_font">New Note</h3>
+					</div>
+					<hr/>
+					<div class="modal_body">
+						<form @submit.prevent="addNewNote()">
+							<label for="tags">
+								Tags
+							</label>
+							<input type="text" v-model="tags" name="tags"/>
+							<div class="tags">
+								<span class="tag" v-for="tag,tkey in tags.trim(' ').split(/[ ,]+/).filter(Boolean)" :key="tkey">
+									<span v-if="tag.trim()!==''">
+										{{tag}}
+									</span>
+								</span>
+							</div>
+							<label for="content">
+								Board Content
+							</label>
+							<textarea v-model="content" placeholder="Write something.." style="height: 200px"></textarea>
+							<div class="preview" style="padding: 0.5rem; margin:0.5rem;">
+								<code v-html="marked(content)"></code>
+							</div>
+							<div class="clear_fix">
+								<button type="submit" class="bgBtn">Create</button>
+								<button type="button" class="outlineBtn" @click="closePopup('showNoteModal')">
+									Cancel
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block script %}
+	<script src="[[asset('/js/parser.js')]]"></script>
+{% endblock %}

@@ -16,12 +16,12 @@
 		<div class="userprofile">
 			<div class="dropdownButton" id="profileDropdownBtn" @click.prevent="togglePopup('showProfileDropdown')">
 					{% if(isset($user)): %}
-						<div class="name">[[$user->getUsername()]]</div>
+						<div class="name truncate">[[$user->getUsername()]]</div>
 					{% else: %}
-						<div class="name">Guest</div>
+						<div class="name truncate">Guest</div>
 					{% endif; %}
 					<div class="avatar">
-						<img src="/avatar/avatar1.png" alt="avatar1"/>
+						<img src="[[asset('/avatar/avatar1.png')]]" alt="avatar1"/>
 					</div>
 				</div>
 

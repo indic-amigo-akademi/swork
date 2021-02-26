@@ -1,362 +1,167 @@
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+{% extends layout.ptml %}
 
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-		<link rel="manifest" href="/site.webmanifest" />
+{% block title %}Home Page{% endblock %}
 
-		<title>Swork - Planning Board</title>
-		<link rel="stylesheet" type="text/css" href="scss/style.css" />
-		<script src="https://unpkg.com/vue@next"></script>
-	</head>
-	<body>
-		<div id="root">
-			<div class="container" :class="darkMode ? 'dark' : 'light' ">
-				<header>
-					<div class="navbar">
-						<div class="breadcrumb">
-							<span>Fusion</span>
-							<ion-icon name="chevron-forward-outline"></ion-icon>
-							<span>Boards</span>
-						</div>
-
-						<div class="searchbox">
-							<input
-								class="search-box"
-								type="text"
-								placeholder="Search..."
-								name="search"
-								v-model="search"
-							/>
-							<button class="search-btn" type="submit">
-								<ion-icon name="search-outline"></ion-icon>
-							</button>
-						</div>
-
-						<div class="userprofile">
-							<div
-								class="dropdownButton"
-								id="profileDropdownBtn"
-								@click.prevent="togglePopup('showProfileDropdown')"
-							>
-								<div class="name">??name??</div>
-								<div class="avatar">
-									<img src="./megh.jpg" alt="avatar1" />
-								</div>
-							</div>
-							<div
-								v-if="showProfileDropdown"
-								id="profileDropdown"
-								class="dropdown-content"
-							>
-								<a href="#">Logout</a>
-								<a
-									href="#"
-									@click.prevent="resetPopup();openPopup('showRegisterModal');openPopup('showRegisterForm');"
-								>
-									Register
-								</a>
-								<a
-									href="#"
-									@click.prevent="resetPopup();openPopup('showRegisterModal');closePopup('showRegisterForm');"
-								>
-									Login
-								</a>
-							</div>
-
-							<div v-if="showRegisterModal" id="registerModal" class="modal">
-								<span
-									@click.prevent="closePopup('showRegisterModal')"
-									class="close"
-								>
-									&times;
-								</span>
-								<div class="modal-content">
-									<div class="container_modal">
-										<div class="modal_header">
-											<div
-												class="tab"
-												:class="showRegisterForm? 'active': ''"
-												@click="openPopup('showRegisterForm')"
-											>
-												Signup
-											</div>
-											<div
-												class="tab"
-												:class="!showRegisterForm? 'active': ''"
-												@click="closePopup('showRegisterForm')"
-											>
-												Signin
-											</div>
-										</div>
-										<hr />
-										<div class="modal_body">
-											<form
-												v-if="showRegisterForm"
-												class="signup-form"
-												@submit.prevent=""
-											>
-												<label for="uname">Username</label>
-												<input
-													type="text"
-													placeholder="Enter Username"
-													name="email"
-													required
-												/>
-
-												<label for="psw">Password</label>
-												<input
-													type="password"
-													placeholder="Enter Password"
-													name="psw"
-													required
-												/>
-
-												<label for="c_psw">Confirm Password</label>
-												<input
-													type="password"
-													placeholder="Enter Password"
-													name="c_psw"
-													required
-												/>
-
-												<div class="clearfix">
-													<button type="submit" class="bgBtn">Register</button>
-													<button
-														type="button"
-														@click.prevent="closePopup('showRegisterModal')"
-														class="outlineBtn"
-													>
-														Cancel
-													</button>
-												</div>
-											</form>
-
-											<form v-else @submit.prevent="" class="sigin-form">
-												<label for="uname">Username</label>
-												<input
-													type="text"
-													placeholder="Enter Username"
-													name="email"
-													required
-												/>
-
-												<label for="psw">Password</label>
-												<input
-													type="password"
-													placeholder="Enter Password"
-													name="psw"
-													required
-												/>
-
-												<div class="clearfix">
-													<button type="submit" class="bgBtn">Login</button>
-													<button
-														type="button"
-														@click.prevent="closePopup('showRegisterModal')"
-														class="outlineBtn"
-													>
-														Cancel
-													</button>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="rightmenu">
-							<div class="btn" @click="toggleDark">
-								<ion-icon
-									:name="darkMode ? 'sunny-outline' : 'moon-outline'"
-								></ion-icon>
-							</div>
-						</div>
-					</div>
-				</header>
-
-				<main>
-					<div class="board-list">
-						<div class="board">
-							<div class="board-header">In Plan</div>
-							<div class="board-body">
-								<div class="note">
-									<div class="note-tags">
-										<span class="tag">React</span>
-										<span class="tag">PHP</span>
-									</div>
-									<div class="note-body">
-										The expanded name of the board with a length of several
-										lines (preferably three for this example)
-									</div>
-									<div class="note-footer">
-										<div class="avatar">
-											<img src="./avatar/avatar1.png" alt="avatar1" />
-										</div>
-										<div class="date">2018 Aug 1</div>
-										<div class="extras">
-											<span class="comment-count">2</span>
-											<ion-icon name="chatbox-outline"></ion-icon>
-										</div>
-									</div>
-								</div>
-								<div class="note">
-									<div class="note-tags">
-										<span class="tag">React</span>
-									</div>
-									<div class="note-body">
-										The expanded name of the board is two lines long.
-									</div>
-									<div class="note-footer">
-										<div class="avatar">
-											<img src="./avatar/avatar2.png" alt="avatar2" />
-										</div>
-										<div class="date">2018 Aug 7</div>
-										<div class="extras">
-											<span class="comment-count">6</span>
-											<ion-icon name="chatbox-outline"></ion-icon>
-										</div>
-									</div>
-								</div>
-								<div class="note">
-									<div class="new-note">
-										<ion-icon name="add-outline"></ion-icon>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="board">
-							<div class="board-header">Backlog</div>
-							<div class="board-body">
-								<div class="note">
-									<div class="note-body">The expanded name of the board</div>
-									<div class="note-footer">
-										<div class="avatar">
-											<img src="./avatar/avatar3.png" alt="avatar3" />
-										</div>
-										<div class="date">2018 Oct 12</div>
-										<div class="extras">
-											<ion-icon name="attach-outline"></ion-icon>
-										</div>
-									</div>
-								</div>
-								<div class="note">
-									<div class="new-note">
-										<ion-icon name="add-outline"></ion-icon>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="board">
-							<div class="board-header">In Progress</div>
-							<div class="board-body">
-								<div class="note">
-									<div class="note-tags">
-										<span class="tag">React</span>
-										<span class="tag">PHP</span>
-										<span class="tag">Mongo DB</span>
-									</div>
-									<div class="note-body">
-										The expanded name of the board with a length of several
-										lines (preferably three for this example)
-									</div>
-									<div class="note-footer">
-										<div class="avatar">
-											<img src="./avatar/avatar1.png" alt="avatar1" />
-										</div>
-										<div class="date">2018 Aug 1</div>
-										<div class="extras">
-											<ion-icon name="attach-outline"></ion-icon>
-											<span class="comment-count">2</span>
-											<ion-icon name="chatbox-outline"></ion-icon>
-										</div>
-									</div>
-								</div>
-								<div class="note">
-									<div class="note-tags">
-										<span class="tag">React</span>
-									</div>
-									<div class="note-body">
-										The expanded name of the board is two lines long.
-									</div>
-									<div class="note-footer">
-										<div class="avatar">
-											<img src="./avatar/avatar2.png" alt="avatar2" />
-										</div>
-										<div class="date">2018 Aug 9</div>
-										<div class="extras">
-											<span class="comment-count">6</span>
-											<ion-icon name="chatbox-outline"></ion-icon>
-										</div>
-									</div>
-								</div>
-								<div class="note">
-									<div class="note-tags">
-										<span class="tag">React</span>
-										<span class="tag">Angular</span>
-									</div>
-									<div class="note-body">
-										The expanded name of the board with a length of several
-										lines (preferably three for this example)
-									</div>
-									<div class="note-footer">
-										<div class="avatar">
-											<img src="./avatar/avatar1.png" alt="avatar1" />
-										</div>
-										<div class="date">2018 Aug 3</div>
-										<div class="extras">
-											<ion-icon name="attach-outline"></ion-icon>
-											<span class="comment-count">2</span>
-											<ion-icon name="chatbox-outline"></ion-icon>
-										</div>
-									</div>
-								</div>
-								<div class="note">
-									<div class="new-note">
-										<ion-icon name="add-outline"></ion-icon>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="board">
-							<div class="board-header">Done</div>
-							<div class="board-body">
-								<div class="note">
-									<div class="new-note">
-										<ion-icon name="add-outline"></ion-icon>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="board new-board">
-							<div class="board-body">
-								<ion-icon name="add-outline"></ion-icon>
-								<span> Add new board </span>
-							</div>
-						</div>
-					</div>
-				</main>
-
-				<footer>
-					<div class="copyright">
-						Copyright &copy; <span id="full-year"></span> | Developed by Indic
-						WebDev Team
-					</div>
-				</footer>
-			</div>
-		</div>
-
-		<script
-			type="module"
-			src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"
-		></script>
-
-		<script src="js/app.js"></script>
-		<script defer src="js/script.js"></script>
-	</body>
-</html>
+{% block content %}
+<main>
+    <div class="board-list">
+        <div class="board">
+            <div class="board-header">In Plan</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">PHP</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board with a length of several
+                        lines (preferably three for this example)
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar1.png" alt="avatar1" />
+                        </div>
+                        <div class="date">2018 Aug 1</div>
+                        <div class="extras">
+                            <span class="comment-count">2</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board is two lines long.
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar2.png" alt="avatar2" />
+                        </div>
+                        <div class="date">2018 Aug 7</div>
+                        <div class="extras">
+                            <span class="comment-count">6</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-header">Backlog</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="note-body">The expanded name of the board</div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar3.png" alt="avatar3" />
+                        </div>
+                        <div class="date">2018 Oct 12</div>
+                        <div class="extras">
+                            <ion-icon name="attach-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-header">In Progress</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">Mongo DB</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board with a length of several
+                        lines (preferably three for this example)
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="[[asset('/avatar/avatar1.png')]]" alt="avatar1" />
+                        </div>
+                        <div class="date">2018 Aug 1</div>
+                        <div class="extras">
+                            <ion-icon name="attach-outline"></ion-icon>
+                            <span class="comment-count">2</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board is two lines long.
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar2.png" alt="avatar2" />
+                        </div>
+                        <div class="date">2018 Aug 9</div>
+                        <div class="extras">
+                            <span class="comment-count">6</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="note-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Angular</span>
+                    </div>
+                    <div class="note-body">
+                        The expanded name of the board with a length of several
+                        lines (preferably three for this example)
+                    </div>
+                    <div class="note-footer">
+                        <div class="avatar">
+                            <img src="./avatar/avatar1.png" alt="avatar1" />
+                        </div>
+                        <div class="date">2018 Aug 3</div>
+                        <div class="extras">
+                            <ion-icon name="attach-outline"></ion-icon>
+                            <span class="comment-count">2</span>
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-header">Done</div>
+            <div class="board-body">
+                <div class="note">
+                    <div class="new-note">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board new-board">
+            <div class="board-body">
+                <ion-icon name="add-outline"></ion-icon>
+                <span> Add new board </span>
+            </div>
+        </div>
+    </div>    
+</main>
+{% endblock %}

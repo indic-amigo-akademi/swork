@@ -4,7 +4,28 @@ class UserController
 {
     public static function index()
     {
-        return Template::view('user.ptml');
+        $db = $_SERVER['PHP_AUTH_APP']['database'];
+
+        if (isset($_SESSION['PHP_AUTH_USER'])) {
+            $id = $_SESSION['PHP_AUTH_USER']->getId();
+
+            $plans = $db->findAllBy('plans', [
+                'author' => $id,
+            ]);
+
+            $plans = json_decode(json_encode($plans));
+
+            return Template::view('user.ptml', [
+                'title' => "Dashboard | {$_SESSION['PHP_AUTH_USER']->getUsername()}",
+                'user' => $_SESSION['PHP_AUTH_USER'],
+                'plans' => $plans,
+            ]);
+        }
+
+        return Template::view('user.ptml', [
+            'title' => 'Home Page',
+            'user' => null,
+        ]);
     }
 
     public static function login()

@@ -3,7 +3,7 @@
 class Plan
 {
     private int $id;
-    private string $name;
+    private string $name, $filename;
     private Collection $users, $boards;
 
     public function __construct()

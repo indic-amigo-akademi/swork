@@ -94,7 +94,7 @@ header {
 			display: inline-block;
 			line-height: 40px;
 			position: relative;
-			top: -0.5rem;
+			// top: -0.5rem;
 			font-size: 0.9rem;
 		}
 		.avatar {
@@ -183,15 +183,6 @@ ion-icon {
 			border-radius: 0.25rem;
 			.note-tags {
 				padding: 0.125rem;
-				span.tag {
-					display: inline-block;
-					padding: 0.5rem 0.75rem;
-					margin-right: 0.25rem;
-					margin-bottom: 0.5rem;
-					background-color: $cyan;
-					border-radius: 1.5rem;
-					font-size: 0.6rem;
-				}
 			}
 			.note-body {
 				text-align: justify;
@@ -268,6 +259,17 @@ ion-icon {
 	}
 }
 
+span.tag {
+	display: inline-block;
+	padding: 0.5rem 0.75rem;
+	margin-right: 0.25rem;
+	margin-bottom: 0.5rem;
+	background-color: $cyan;
+	border-radius: 1.5rem;
+	font-size: 0.6rem;
+	color: #444;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 	.board {
 		width: calc(33% - 1.5rem);
@@ -312,7 +314,6 @@ ion-icon {
 
 // Modal Component
 .modal {
-	// display: none;
 	position: absolute;
 	z-index: 1;
 	left: 0;
@@ -331,7 +332,9 @@ ion-icon {
 		margin: 5% auto 10% auto;
 		border: 0px;
 		border-radius: 5px;
-		width: 44%;
+		width: 50%;
+		min-width: 400px;
+		max-width: 600px;
 
 		.modal_header {
 			display: flex;
@@ -356,19 +359,17 @@ ion-icon {
 			margin-top: 0px;
 			margin-bottom: 25px;
 		}
-		input[type='text'],
-		input[type='password'] {
+		input,
+		textarea {
 			width: 100%;
 			padding: 15px;
 			margin: 5px 0 22px 0;
 			display: inline-block;
 			border: none;
-			// background: #f1f1f1;
 		}
 
-		input[type='text']:focus,
-		input[type='password']:focus {
-			// background-color: #ddd;
+		input,
+		textarea {
 			outline: none;
 		}
 
@@ -376,43 +377,6 @@ ion-icon {
 			font-weight: bold;
 			display: flex;
 			align-items: left;
-		}
-
-		.outlineBtn {
-			padding: 0.75rem 1.5rem;
-			background-color: white;
-			border-color: mix($blue, $violet, 90%);
-			box-shadow: none;
-			color: mix($blue, $violet, 90%);
-			border-radius: 4px;
-			margin: 0 0.5rem;
-			&:hover {
-				opacity: 0.85;
-				background-color: mix($blue, $violet, 90%);
-				color: white;
-			}
-		}
-
-		.bgBtn {
-			padding: 0.75rem 1.5rem;
-			background-color: mix($blue, $violet, 90%);
-			color: white;
-			border-color: mix($blue, $violet, 90%);
-			box-shadow: none;
-			border-radius: 4px;
-			margin: 0 0.5rem;
-			&:hover {
-				opacity: 0.85;
-				background-color: white;
-				color: mix($blue, $violet, 90%);
-			}
-		}
-
-		.outlineBtn,
-		.bgBtn {
-			float: center;
-			width: 25%;
-			min-width: 100px;
 		}
 	}
 
@@ -432,6 +396,86 @@ ion-icon {
 	}
 }
 
+.outlineBtn {
+	padding: 0.75rem 1.5rem;
+	background-color: white;
+	border-color: mix($blue, $violet, 90%) !important;
+	box-shadow: none;
+	color: mix($blue, $violet, 90%) !important;
+	border-radius: 4px;
+	margin: 0 0.5rem;
+	&:hover {
+		opacity: 0.85;
+		background-color: mix($blue, $violet, 90%) !important;
+		color: white !important;
+	}
+}
+
+.bgBtn {
+	text-decoration: none;
+	text-align: center;
+	display: inline-block;
+	padding: 0.75rem 1.5rem;
+	background-color: mix($blue, $violet, 90%) !important;
+	color: white !important;
+	border-color: mix($blue, $violet, 90%) !important;
+	box-shadow: none;
+	border-radius: 4px;
+	margin: 0 0.5rem;
+	&:hover {
+		opacity: 0.85;
+		background-color: white !important;
+		color: mix($blue, $violet, 90%) !important;
+	}
+	&.blueBtn {
+		background-color: $blue !important;
+		border-color: $blue !important;
+		&:hover {
+			color: $blue !important;
+			background-color: white !important;
+		}
+	}
+	&.redBtn {
+		background-color: $red !important;
+		border-color: $red !important;
+		&:hover {
+			color: $red !important;
+			background-color: white !important;
+		}
+	}
+	&.violetBtn {
+		background-color: $violet !important;
+		border-color: $violet !important;
+		&:hover {
+			color: $violet !important;
+			background-color: white !important;
+		}
+	}
+	&.greenBtn {
+		background-color: $green !important;
+		border-color: $green !important;
+		&:hover {
+			color: $green !important;
+			background-color: white !important;
+		}
+	}
+	&.cyanBtn {
+		background-color: $cyan !important;
+		border-color: $cyan !important;
+		&:hover {
+			color: $cyan !important;
+			background-color: white !important;
+		}
+	}
+}
+
+.outlineBtn,
+.bgBtn {
+	float: center;
+	width: 25%;
+	min-width: 150px;
+}
+
 .clearfix::after {
 	content: '';
 	clear: both;
@@ -443,4 +487,72 @@ ion-icon {
 	.bgBtn {
 		width: 100%;
 	}
+}
+
+/* User Dashboard */
+.dash-container {
+	width: 100%;
+	display: flex;
+	padding: 3.5rem 0;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: column;
+	.dashboard {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: calc(100% - 3rem);
+		height: calc(100vh - 5rem);
+		min-height: 10rem;
+		h1,
+		h3 {
+			text-align: center;
+		}
+		h1 {
+			font-size: 2.5rem;
+			color: lighten($blue, 5%);
+		}
+		h3 {
+			font-weight: 500;
+			font-size: 1.5rem;
+		}
+	}
+	.btn-container {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		padding-top: 1.5rem;
+	}
+}
+
+.plans {
+	display: inline-block;
+	h2 {
+		display: inline-block;
+	}
+
+	.plan-list {
+		padding-left: 1.25rem;
+		padding-top: 0.5rem;
+		a {
+			font-size: 1.2rem;
+			color: inherit;
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.d-none {
+	display: none;
+}
+
+.truncate {
+	width: 50px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

@@ -25,7 +25,7 @@ $_SERVER['PHP_AUTH_APP'] = [
 session_start();
 // Default index page
 router('GET', '^/$', function () {
-    echo BoardController::index();
+    echo UserController::index();
 });
 
 router('POST', '^/login$', function () {
@@ -54,7 +54,7 @@ router('GET', '^/view$', function () {
 });
 
 // With named parameters
-router('GET', '^/users/(?<id>\d+)$', function ($params) {
+router('GET', '^/users/(?<id>\w+)$', function ($params) {
     echo 'You selected User-ID: ';
     var_dump($params);
 });
@@ -67,10 +67,14 @@ router('POST', '^/users$', function () {
 });
 
 // With named parameters
-router('GET', '^/board/(?<id>\d+)$', function ($params) {
-    echo 'You selected Board: ';
-    var_dump($params);
+router('GET', '^/plan/(?<slug>\w+)$', function ($params) {
+    echo PlanController::index($params['slug']);
 });
+
+router('POST', '^/plan/new$', function () {
+    echo PlanController::new();
+});
+
 
 router('POST', '^/test$', function () {
     echo $_POST['username'];

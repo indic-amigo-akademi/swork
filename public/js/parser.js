@@ -1,0 +1,31 @@
+const xml = `
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plan name="Fusion" index="1">
+    <board name="In Plan" index="1">
+        <note>
+            <tag name="React" index="1"/>
+            <tag name="PHP" index="2"/>
+            <content>
+                The expanded name of the board with a length of several
+                lines (preferably three for this example)
+            </content>
+            <created>2018-07-31T18:30:00.000Z</created>
+            <modified>2018-07-31T18:30:00.000Z</modified>
+        </note>
+        <created>2018-07-31T18:30:00.000Z</created>
+        <modified>2018-07-31T18:30:00.000Z</modified>
+    </board>
+    <board name="Done" index="2">
+        <note>
+            <tag name="Vue" index="3"/>
+            <tag name="PHP" index="2"/>
+            <content>Done</content>
+            <created>2018-08-08T18:30:00.000Z</created>
+            <modified>2018-08-08T18:30:00.000Z</modified>
+        </note>
+        <created>2018-08-02T18:30:00.000Z</created>
+        <modified>2018-08-02T18:30:00.000Z</modified>
+    </board>
+</plan>
+`;

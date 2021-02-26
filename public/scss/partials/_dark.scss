@@ -1,8 +1,21 @@
 .dark {
-	input {
+	div,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	li,
+	label {
+		color: $light-gray;
+	}
+	input,
+	textarea {
 		color: $light-gray;
 		background-color: lighten($gray, 10%);
-		:focus{
+		:focus {
 			background-color: lighten($gray, 20%);
 		}
 	}
@@ -44,11 +57,17 @@
 					.new-note {
 						color: lighten($gray, 30%);
 					}
+					&:hover {
+						background-color: $white;
+					}
 				}
 			}
 			&.new-board {
 				border-color: lighten($gray, 30%);
 				color: lighten($gray, 30%);
+				&:hover {
+					background-color: $gray;
+				}
 			}
 		}
 	}
@@ -64,15 +83,27 @@
 	.dropdown-content {
 		background-color: $gray;
 		box-shadow: 0px 8px 16px 0px rgba($white, 0.2);
-		a:hover{
+		a:hover {
 			background-color: $black;
 		}
 	}
 
-	.modal{
-		background-color: rgba($white, 0.7);
+	.modal {
+		background-color: rgba($gray, 0.7);
 		.modal-content {
-		  background-color: darken($gray,3%);
+			background-color: darken($gray, 3%);
+			box-shadow: 0px 12px 24px 0px rgba($white, 0.2);
+			.outlineBtn {
+				background-color: darken($white, 13%);
+			}
+		}
+	}
+
+	// Dashboard
+	.dash-container {
+		.dashboard {
+			background-color: $gray;
+			box-shadow: 0px 8px 16px 0px rgba($white, 0.2);
 		}
 	}
 }
