@@ -329,10 +329,11 @@ ion-icon {
 
   .modal-content {
     background-color: #fefefe;
-    margin: 8% auto 20% auto;
+    margin: 8% auto 28% auto;
     border: 0px;
     border-radius: 5px;
     width: 44%;
+    height: auto;
 
     .modal_header {
       display: flex;
@@ -443,7 +444,6 @@ ion-icon {
     width: 100%;
   }
 }
-
 // Megha Go
 .dash-container {
   width: 100%;
@@ -510,5 +510,35 @@ ion-icon {
     }
   }
 }
-
 // Megha Done
+//megha board modal
+.board_font {
+  font-size: 25px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  color: rgb(39, 39, 39);
+}
+.board_font:hover {
+  opacity: 0.8;
+}
+
+.board_content {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+option {
+  padding: 20px 0px;
+}
+
+.board_btn {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+}
+//megha board modal

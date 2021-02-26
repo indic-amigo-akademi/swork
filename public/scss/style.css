@@ -533,10 +533,11 @@ ion-icon {
 
 .modal .modal-content {
   background-color: #fefefe;
-  margin: 8% auto 20% auto;
+  margin: 8% auto 28% auto;
   border: 0px;
   border-radius: 5px;
   width: 44%;
+  height: auto;
 }
 
 .modal .modal-content .modal_header {
@@ -748,5 +749,42 @@ ion-icon {
 
 .dash-container .plan-container h1 {
   color: #027efa;
+}
+
+.board_font {
+  font-size: 25px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  color: #272727;
+}
+
+.board_font:hover {
+  opacity: 0.8;
+}
+
+.board_content {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+option {
+  padding: 20px 0px;
+}
+
+.board_btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
 }
 /*# sourceMappingURL=style.css.map */
