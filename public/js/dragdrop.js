@@ -76,8 +76,12 @@
 
 window.addEventListener('load', function () {
 	states.loadXML();
+});
+
+function initDragnDrop() {
 	const boardList = document.querySelector('.board-list');
-	let sortableBoardList = Sortable.create(boardList, {
+	let sortableBoardList = new Sortable(boardList, {
+		filter: '.notDraggable',
 		onChange() {
 			boards = parseHTMLToJson(
 				document.querySelector('.board-list').innerHTML.toString()
@@ -89,7 +93,7 @@ window.addEventListener('load', function () {
 		sortableBoardBodyList = [];
 	for (let board of boardBodyList) {
 		sortableBoardBodyList.push(
-			Sortable.create(board, {
+			new Sortable(board, {
 				group: 'nested',
 				animation: 150,
 				fallbackOnBody: true,
@@ -104,4 +108,6 @@ window.addEventListener('load', function () {
 			})
 		);
 	}
-});
+}
+
+

@@ -25,14 +25,21 @@ const config = {
 };
 
 const App = {
+	components: {
+		// vdraggable: vuedraggable,
+	},
 	data() {
 		return {
-			darkMode: true || localStorage.getItem('darkMode') === 'true',
+			darkMode: localStorage.getItem('darkMode')
+				? localStorage.getItem('darkMode') === 'true'
+				: true,
 			showProfileDropdown: false,
 			showRegisterModal: false,
 			showNoteModal: false,
 			showRegisterForm: false,
 			drag: null,
+			enabled: true,
+			dragging: true,
 			search: '',
 			username: '',
 			password: '',
@@ -53,12 +60,17 @@ const App = {
 			// console.log('mounted!');
 		});
 		onUpdated(() => {
-			const dark = states.darkMode ? 'true' : 'false';
-			localStorage.setItem('darkMode', dark);
-			console.log('updated!');
+			// console.log('updated!');
 		});
 		onUnmounted(() => {
 			// console.log('unmounted!');
+		});
+	},
+	updated() {
+		this.$nextTick(function () {
+			const dark = states.darkMode ? 'true' : 'false';
+			localStorage.setItem('darkMode', dark);
+			// if (location.pathname.startsWith('/plan')) initDragnDrop();
 		});
 	},
 	methods: {
@@ -67,6 +79,14 @@ const App = {
 			this.showRegisterModal = false;
 			this.showRegisterForm = false;
 			this.showNoteModal = false;
+		},
+		resetInput() {
+			(this.search = ''),
+				(this.username = ''),
+				(this.password = ''),
+				(this.cpassword = ''),
+				(this.content = ''),
+				(this.tags = '');
 		},
 		toggleDark() {
 			this.darkMode = !this.darkMode;
@@ -115,6 +135,7 @@ const App = {
 				}
 				location.reload();
 			}
+			this.resetInput();
 		},
 		async loginUser() {
 			this.resetPopup();
@@ -145,6 +166,7 @@ const App = {
 				});
 			}
 			location.reload();
+			this.resetInput();
 		},
 		async logoutUser() {
 			this.resetPopup();
@@ -200,7 +222,7 @@ const App = {
 					this.alert.errors = jsonData;
 					await Swal.fire({
 						...config,
-						title: 'Login error',
+						title: 'Add Plan Esrror',
 						text: jsonData.error,
 						icon: 'error',
 					});
@@ -209,13 +231,14 @@ const App = {
 					this.alert.success = jsonData;
 					await Swal.fire({
 						...config,
-						title: 'Login success',
+						title: 'Add Plan Success',
 						text: jsonData.msg,
 						icon: 'success',
 					});
 				}
 				location.reload();
 			}
+			this.resetInput();
 		},
 		async addNewBoard() {
 			const { value: boardName, isConfirmed } = await Swal.fire({
@@ -267,6 +290,7 @@ const App = {
 				content,
 			};
 			this.boards[parseInt(this.board)].notes.push(newNote);
+			this.resetInput();
 		},
 		// dragStartBoard(event, targetIndex) {
 		// 	this.drag = { target: { index: targetIndex, element: event.target } };
