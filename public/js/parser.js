@@ -5,10 +5,12 @@ function parseHTMLToJson(html) {
 	let boards = [];
 
 	for (let boardEle of doc.querySelectorAll('.board:not(.new-board)')) {
+		let id = boardEle.querySelector('.board-id').innerHTML;
 		let name = boardEle.querySelector('.board-header').innerHTML;
 		let created = boardEle.querySelector('.board-created').innerHTML;
 		let edited = boardEle.querySelector('.board-edited').innerHTML;
 		let newBoard = {
+			id,
 			name,
 			created,
 			edited,
@@ -16,9 +18,11 @@ function parseHTMLToJson(html) {
 		};
 		for (let noteEl of boardEle.querySelectorAll('.note:not(.notDraggable)')) {
 			let content = noteEl.querySelector('.note-content').innerHTML;
-			created = boardEle.querySelector('.board-created').innerHTML;
-			edited = boardEle.querySelector('.board-edited').innerHTML;
+			created = boardEle.querySelector('.note-created').innerHTML;
+			edited = boardEle.querySelector('.note-edited').innerHTML;
+			id = boardEle.querySelector('.note-id').innerHTML;
 			let newNote = {
+				id,
 				content,
 				created,
 				edited,
@@ -52,6 +56,7 @@ function parseJsonToXML(json) {
 			}
 			noteXml += `
 				<note>
+					<id>${note.id}</id>
 					<content>${note.content}</content>
 					<created>${note.created}</created>
 					<edited>${note.edited}</edited>
@@ -61,6 +66,7 @@ function parseJsonToXML(json) {
 		}
 		boardXml += `
 			<board>
+				<id>${board.id}</id>
 				<name>${board.name}</name>
 				<created>${board.created}</created>
 				<edited>${board.edited}</edited>
@@ -87,9 +93,11 @@ function parseXMLToJson(xml) {
 
 	for (let boardEle of xmlDoc.getElementsByTagName('board')) {
 		let name = boardEle.getElementsByTagName('name')[0].innerHTML;
+		let id = boardEle.getElementsByTagName('id')[0].innerHTML;
 		let created = boardEle.getElementsByTagName('created')[0].innerHTML;
 		let edited = boardEle.getElementsByTagName('edited')[0].innerHTML;
 		let newBoard = {
+			id,
 			name,
 			created,
 			edited,
@@ -97,9 +105,11 @@ function parseXMLToJson(xml) {
 		};
 		for (let noteEl of boardEle.getElementsByTagName('note')) {
 			let content = noteEl.getElementsByTagName('content')[0].innerHTML;
+			id = boardEle.getElementsByTagName('id')[0].innerHTML;
 			created = boardEle.getElementsByTagName('created')[0].innerHTML;
 			edited = boardEle.getElementsByTagName('edited')[0].innerHTML;
 			let newNote = {
+				id,
 				content,
 				created,
 				edited,
@@ -119,4 +129,3 @@ function parseXMLToJson(xml) {
 	}
 	return boards;
 }
-

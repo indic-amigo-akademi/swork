@@ -5,45 +5,51 @@
 
 {% block content %}
 	<main>
-		<div class="board-list">
-			<div class="board" v-for="board,bkey in boards" :key="bkey" {# @dragstart="dragStartBoard($event,[bkey])" @dragend="dragEndBoard($event)" @dragover="dragOverBoard($event,[bkey])" @dragover="dragOverNote($event,[bkey])" #} draggable="true">
-				<div class="board-header">{{board.name}}</div>
-				<div class="board-body">
+		<div>
+			<vdraggable class="board-list" v-model="boards" group="board" @start="drag=true" @end="drag=false">
+				<div class="board" v-for="board,bkey in boards" :key="bkey" draggable="true">
+					<div class="board-id d-none">{{board.id}}</div>
+					<div class="board-header">{{board.name}}</div>
+					<div class="board-body">
 
-					<div class="note" v-for="note,nkey in board.notes" :key="nkey" {# @dragstart="dragStartNote($event,[bkey,nkey])" @dragend="dragEndNote($event)" @dragover="dragOverNote($event,[bkey,nkey])" #} draggable="true">
-						<div class="note-tags">
-							<span class="tag" v-for="tag,tkey in note.tags" :key="tkey" :index="tkey">{{tag.value}}</span>
-						</div>
-						<div class="note-body">
-							<code v-html="marked(note.content)"></code>
-							<div class="note-content d-none">{{note.content}}</div>
-						</div>
-						<div class="d-none">
-							<div class="note-created">{{note.created}}</div>
-							<div class="note-edited">{{note.edited}}</div>
-						</div>
+						<vdraggable v-model="board.notes" group="shared-board">
+							<div class="note" v-for="note,nkey in board.notes" :key="nkey" draggable="true">
+								<div class="note-id d-none">{{note.id}}</div>
+								<div class="note-tags">
+									<span class="tag" v-for="tag,tkey in note.tags" :key="tkey" :index="tkey">{{tag.value}}</span>
+								</div>
+								<div class="note-body">
+									<code v-html="marked(note.content)"></code>
+									<div class="note-content d-none">{{note.content}}</div>
+								</div>
+								<div class="d-none">
+									<div class="note-created">{{note.created}}</div>
+									<div class="note-edited">{{note.edited}}</div>
+								</div>
+							</div>
+							<div class="note notDraggable" @click="openPopup('showNoteModal');setCurrentBoard(bkey)">
+								<div class="new-note">
+									<i class="fas fa-plus"></i>
+								</div>
+							</div>
+						</vdraggable>
+
 					</div>
-
-					<div class="note notDraggable" @click="openPopup('showNoteModal');setCurrentBoard(bkey)">
-						<div class="new-note">
-							<i class="fas fa-plus"></i>
-						</div>
+					<div class="d-none">
+						<div class="board-created">{{board.created}}</div>
+						<div class="board-edited">{{board.edited}}</div>
 					</div>
 				</div>
-				<div class="d-none">
-					<div class="board-created">{{board.created}}</div>
-					<div class="board-edited">{{board.edited}}</div>
-				</div>
-			</div>
 
-			<div class="board new-board" @click.prevent="addNewBoard">
-				<div class="board-body">
-					<i class="fas fa-plus" aria-hidden="true"></i>
-					<span>
-						Add new board
-					</span>
+				<div slot="footer" class="board new-board" @click.prevent="addNewBoard">
+					<div class="board-body">
+						<i class="fas fa-plus" aria-hidden="true"></i>
+						<span>
+							Add new board
+						</span>
+					</div>
 				</div>
-			</div>
+			</vdraggable>
 		</div>
 
 
@@ -94,7 +100,7 @@
 {% endblock %}
 
 {% block script %}
-	<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
+	{# <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script> #}
 	<script src="[[asset('/js/parser.js')]]"></script>
 	<script src="[[asset('/js/dragdrop.js')]]"></script>
 {% endblock %}

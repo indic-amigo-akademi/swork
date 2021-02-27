@@ -25,8 +25,9 @@ const config = {
 };
 
 const App = {
+	el: '#root',
 	components: {
-		// vdraggable: vuedraggable,
+		vdraggable: vuedraggable,
 	},
 	data() {
 		return {
@@ -47,7 +48,6 @@ const App = {
 			content: '',
 			tags: '',
 			tagsArray: new Set(['PHP', 'Symfony']),
-			board: -1,
 			alert: {
 				success: '',
 				error: '',
@@ -256,9 +256,13 @@ const App = {
 			});
 			if (isConfirmed) {
 				const created = new Date().toISOString(),
-					edited = new Date().toISOString();
+					edited = new Date().toISOString(),
+					id = Math.floor((1 + Math.random()) * 0x10000)
+						.toString(16)
+						.substring(1);
 				const newBoard = {
 					name: boardName,
+					id,
 					notes: [],
 					created,
 					edited,
@@ -282,8 +286,12 @@ const App = {
 			});
 			(content = this.content),
 				(created = new Date().toISOString()),
-				(edited = new Date().toISOString());
+				(edited = new Date().toISOString()),
+				(id = Math.floor((1 + Math.random()) * 0x10000)
+					.toString(16)
+					.substring(1));
 			const newNote = {
+				id,
 				created,
 				edited,
 				tags,
@@ -416,7 +424,8 @@ const App = {
 	},
 };
 
-const app = Vue.createApp(App);
-app.config.isCustomElement = (tag) => tag.startsWith('ion-');
+Vue.config.ignoredElements = [/^ion-/];
 
-const states = app.mount('#root');
+const app = new Vue(App);
+
+const states = app;
