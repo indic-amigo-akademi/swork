@@ -93,7 +93,7 @@
 			</div>
 		</div>
 		<div class="btn-container">
-			<button class="bgBtn blueBtn" @click="loadXML">LoadXML</button>
+			<button class="outlineBtn blueBtn" @click="loadXML">LoadXML</button>
 			<button class="bgBtn blueBtn" @click="saveXML">SaveXML</button>
 		</div>
 	</main>

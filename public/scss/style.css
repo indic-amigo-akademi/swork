@@ -312,7 +312,7 @@ header .breadcrumb span {
 }
 
 header .breadcrumb span::after {
-  content: '>';
+  content: ">";
   display: inline-block;
   font-weight: 600;
   font-family: serif;
@@ -829,7 +829,7 @@ span.tag {
 }
 
 .clearfix::after {
-  content: '';
+  content: "";
   clear: both;
   display: table;
 }
@@ -884,7 +884,7 @@ span.tag {
 }
 
 .dash-container .dashboard h1 {
-  font-size: 2.5rem;
+  font-size: 10rem;
   color: #8396ff;
 }
 
@@ -937,5 +937,17 @@ span.tag {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 1.5rem;
 }
 /*# sourceMappingURL=style.css.map */
