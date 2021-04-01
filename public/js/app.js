@@ -34,6 +34,7 @@ const App = {
 			darkMode: localStorage.getItem('darkMode')
 				? localStorage.getItem('darkMode') === 'true'
 				: true,
+			isEditForm: false,
 			showProfileDropdown: false,
 			showRegisterModal: false,
 			showNoteModal: false,
@@ -48,6 +49,8 @@ const App = {
 			content: '',
 			tags: '',
 			tagsArray: new Set(['PHP', 'Symfony']),
+			board: -1,
+			note: -1,
 			alert: {
 				success: '',
 				error: '',
@@ -103,6 +106,19 @@ const App = {
 		setCurrentBoard(key) {
 			this.board = key;
 		},
+		setCurrentNote(key) {
+			this.note = key;
+			this.resetPopup();
+			const { created, edited, tags, content } = this.boards[
+				parseInt(this.board)
+			].notes[parseInt(this.note)];
+			this.tags = [];
+			tags.forEach((e) => {
+				this.tags.push(e.value);
+			});
+			this.tags = this.tags.join(', ');
+			this.content = content;
+		},
 		async registerUser() {
 			if (this.cpassword !== this.password) {
 				alert('Password should match');
@@ -111,7 +127,7 @@ const App = {
 				let formData = new FormData();
 				formData.append('username', this.username);
 				formData.append('password', this.password);
-				const res = await fetch('http://localhost:8241/register', {
+				const res = await fetch(`http://${location.host}/register`, {
 					method: 'post',
 					body: formData,
 				});
@@ -142,7 +158,7 @@ const App = {
 			let formData = new FormData();
 			formData.append('username', this.username);
 			formData.append('password', this.password);
-			const res = await fetch('http://localhost:8241/login', {
+			const res = await fetch(`http://${location.host}/login`, {
 				method: 'post',
 				body: formData,
 			});
@@ -155,7 +171,7 @@ const App = {
 					text: jsonData.error,
 					icon: 'error',
 				});
-				location.href = `http://localhost:8241/${this.alert.errors.status}`;
+				location.href = `http://${location.host}/${this.alert.errors.status}`;
 			} else {
 				this.alert.success = jsonData;
 				await Swal.fire({
@@ -170,7 +186,7 @@ const App = {
 		},
 		async logoutUser() {
 			this.resetPopup();
-			const res = await fetch('http://localhost:8241/logout', {
+			const res = await fetch(`http://${location.host}/logout`, {
 				method: 'post',
 			});
 			let jsonData = await res.json();
@@ -182,7 +198,7 @@ const App = {
 					text: jsonData.error,
 					icon: 'error',
 				});
-				location.href = `http://localhost:8241/${this.alert.errors.status}`;
+				location.href = `http://${location.host}/${this.alert.errors.status}`;
 			} else {
 				this.alert.success = jsonData;
 				await Swal.fire({
@@ -192,7 +208,7 @@ const App = {
 					icon: 'success',
 				});
 			}
-			location.href = 'http://localhost:8241/';
+			location.href = `http://${location.host}/`;
 		},
 		async addNewPlan() {
 			const { value: planName, isConfirmed } = await Swal.fire({
@@ -212,7 +228,7 @@ const App = {
 			if (isConfirmed) {
 				let formData = new FormData();
 				formData.append('name', planName);
-				const res = await fetch('http://localhost:8241/plan/new', {
+				const res = await fetch(`http://${location.host}/plan/new`, {
 					method: 'post',
 					body: formData,
 				});
@@ -226,7 +242,7 @@ const App = {
 						text: jsonData.error,
 						icon: 'error',
 					});
-					location.href = `http://localhost:8241/${this.alert.errors.status}`;
+					location.href = `http://${location.host}/${this.alert.errors.status}`;
 				} else {
 					this.alert.success = jsonData;
 					await Swal.fire({
@@ -256,18 +272,35 @@ const App = {
 			});
 			if (isConfirmed) {
 				const created = new Date().toISOString(),
-					edited = new Date().toISOString(),
-					id = Math.floor((1 + Math.random()) * 0x10000)
-						.toString(16)
-						.substring(1);
+					edited = new Date().toISOString();
 				const newBoard = {
 					name: boardName,
-					id,
 					notes: [],
 					created,
 					edited,
 				};
 				this.boards.push(newBoard);
+			}
+		},
+		async editBoard(id) {
+			this.resetPopup();
+			console.log(this.boards);
+			const { value: boardName, isConfirmed } = await Swal.fire({
+				...config,
+				title: 'Enter your board',
+				input: 'text',
+				inputLabel: 'Your Board Name',
+				inputValue: this.boards[parseInt(id)].name,
+				showCancelButton: true,
+				inputValidator: (value) => {
+					if (!value) {
+						return 'You need to write something!';
+					}
+				},
+			});
+			if (isConfirmed) {
+				this.boards[parseInt(id)].name = boardName;
+				this.boards[parseInt(id)].edited = new Date().toISOString();
 			}
 		},
 		addNewNote() {
@@ -286,12 +319,8 @@ const App = {
 			});
 			(content = this.content),
 				(created = new Date().toISOString()),
-				(edited = new Date().toISOString()),
-				(id = Math.floor((1 + Math.random()) * 0x10000)
-					.toString(16)
-					.substring(1));
+				(edited = new Date().toISOString());
 			const newNote = {
-				id,
 				created,
 				edited,
 				tags,
@@ -300,67 +329,33 @@ const App = {
 			this.boards[parseInt(this.board)].notes.push(newNote);
 			this.resetInput();
 		},
-		// dragStartBoard(event, targetIndex) {
-		// 	this.drag = { target: { index: targetIndex, element: event.target } };
-		// 	event.target.style.opacity = '0.4';
-		// 	event.dataTransfer.effectAllowed = 'move';
-		// },
-		// dragEndBoard(event) {
-		// 	event.target.style.opacity = '1';
-		// 	const { target, source } = this.drag,
-		// 		boards = this.boards;
-		// 	console.log(target);
-		// 	let temp = boards[target.index[0]];
-		// 	boards[target.index[0]] = boards[source.index[0]];
-		// 	boards[source.index[0]] = temp;
-		// 	this.boards = boards;
-		// 	// this.drag = null;
-		// },
-		// dragOverBoard(event, sourceIndex) {
-		// 	if (event.stopPropagation) {
-		// 		event.stopPropagation(); // stops the browser from redirecting.
-		// 	}
-		// 	// e.originalEvent.dataTransfer.setData("text/plain", `${row}_${col}`);
-		// 	this.drag = {
-		// 		...this.drag,
-		// 		source: { index: sourceIndex, element: event.target },
-		// 	};
-		// },
-		// dragStartNote(event, sourceIndex) {
-		// 	this.drag = { source: { index: sourceIndex, element: event.target } };
-		// 	event.target.style.opacity = '0.4';
-		// 	event.dataTransfer.effectAllowed = 'move';
-		// },
-		// dragEndNote(event) {
-		// 	event.target.style.opacity = '1';
-		// 	if (this.drag !== null) {
-		// 		const { target, source } = this.drag,
-		// 			boards = this.boards;
-		// 		if (source.index.length == 2) {
-		// 			let t1 = boards[source.index[0]].notes.splice(source.index[2], 1);
-		// 			if (target.index.length == 2) {
-		// 				boards[target.index[0]].notes.splice(target.index[1], 0, t1);
-		// 			} else if (target.index.length === 1) {
-		// 				boards[target.index[0]].notes.push(t1);
-		// 			}
-		// 		}
-		// 		this.boards = boards;
-		// 	}
-		// 	// boards[target.index] = boards[source.index];
-		// 	// boards[source.index] = temp;
-		// 	// this.boards = boards;
-		// 	// this.drag = null;
-		// },
-		// dragOverNote(event, targetIndex) {
-		// 	if (event.stopPropagation) {
-		// 		event.stopPropagation(); // stops the browser from redirecting.
-		// 	}
-		// 	// e.originalEvent.dataTransfer.setData("text/plain", `${row}_${col}`);
-		// 	this.drag = {
-		// 		...this.drag,
-		// 		target: { index: targetIndex, element: event.target },
-		// 	};
-		// },
+		editNote() {
+			this.resetPopup();
+			const tags = [],
+				newTags = Array.from(
+					new Set(this.tags.trim(' ').split(/[ ,]+/).filter(Boolean))
+				);
+			newTags.forEach((e) => {
+				this.tagsArray.add(e);
+			}),
+				(tagsArray = Array.from(this.tagsArray));
+
+			newTags.forEach((e) => {
+				tags.push({ index: tagsArray.findIndex((ele) => ele === e), value: e });
+			});
+			(content = this.content), (edited = new Date().toISOString());
+			const updatedNote = {
+				edited,
+				tags,
+				content,
+			};
+			let note = this.boards[parseInt(this.board)].notes[parseInt(this.note)];
+			this.boards[parseInt(this.board)].notes[parseInt(this.note)] = {
+				...note,
+				...updatedNote,
+			};
+			this.resetInput();
+		},
 		marked(content) {
 			return marked(content);
 		},
@@ -371,7 +366,7 @@ const App = {
 			const formData = new FormData();
 			formData.append('data', data);
 			formData.append('slug', slug);
-			const res = await fetch('http://localhost:8241/plan/save', {
+			const res = await fetch(`http://${location.host}/plan/save`, {
 				method: 'post',
 				body: formData,
 			});
@@ -385,7 +380,7 @@ const App = {
 					text: jsonData.error,
 					icon: 'error',
 				});
-				location.href = `http://localhost:8241/${this.alert.errors.status}`;
+				location.href = `http://${location.host}/${this.alert.errors.status}`;
 			} else {
 				this.alert.success = jsonData;
 				await Swal.fire({
@@ -402,7 +397,7 @@ const App = {
 			slug = slug[slug.length - 1];
 			const formData = new FormData();
 			formData.append('slug', slug);
-			const res = await fetch('http://localhost:8241/plan/load', {
+			const res = await fetch(`http://${location.host}/plan/load`, {
 				method: 'post',
 				body: formData,
 			});
@@ -415,7 +410,7 @@ const App = {
 					text: this.alert.errors.error,
 					icon: 'error',
 				});
-				location.href = `http://localhost:8241/${this.alert.errors.status}`;
+				location.href = `http://${location.host}/${this.alert.errors.status}`;
 			} else {
 				boards = parseXMLToJson(jsonData.data);
 				this.boards = boards;

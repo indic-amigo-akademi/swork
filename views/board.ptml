@@ -9,11 +9,10 @@
 			<vdraggable class="board-list" v-model="boards" group="board" @start="drag=true" @end="drag=false">
 				<div class="board" v-for="board,bkey in boards" :key="bkey" draggable="true">
 					<div class="board-id d-none">{{board.id}}</div>
-					<div class="board-header">{{board.name}}</div>
+					<div class="board-header" @dblclick="editBoard(bkey)">{{board.name}}</div>
 					<div class="board-body">
-
 						<vdraggable v-model="board.notes" group="shared-board">
-							<div class="note" v-for="note,nkey in board.notes" :key="nkey" draggable="true">
+							<div class="note" v-for="note,nkey in board.notes" @dblclick="isEditForm = true;setCurrentBoard(bkey);setCurrentNote(nkey);openPopup('showNoteModal');" :key="nkey" draggable="true">
 								<div class="note-id d-none">{{note.id}}</div>
 								<div class="note-tags">
 									<span class="tag" v-for="tag,tkey in note.tags" :key="tkey" :index="tkey">{{tag.value}}</span>
@@ -27,13 +26,12 @@
 									<div class="note-edited">{{note.edited}}</div>
 								</div>
 							</div>
-							<div class="note notDraggable" @click="openPopup('showNoteModal');setCurrentBoard(bkey)">
+							<div class="note notDraggable" @click="isEditForm = false;openPopup('showNoteModal');setCurrentBoard(bkey)">
 								<div class="new-note">
 									<i class="fas fa-plus"></i>
 								</div>
 							</div>
 						</vdraggable>
-
 					</div>
 					<div class="d-none">
 						<div class="board-created">{{board.created}}</div>
@@ -58,11 +56,11 @@
 			<div class="modal-content">
 				<div class="container_modal">
 					<div class="modal_header">
-						<h3 class="board_font">New Note</h3>
+						<h3 class="board_font">{{isEditForm?'Edit Note':'New Note'}}</h3>
 					</div>
 					<hr/>
 					<div class="modal_body">
-						<form @submit.prevent="addNewNote()">
+						<form @submit.prevent="if(isEditForm) editNote(); else addNewNote();">
 							<label for="tags">
 								Tags
 							</label>
@@ -82,7 +80,7 @@
 								<code v-html="marked(content)"></code>
 							</div>
 							<div class="clear_fix">
-								<button type="submit" class="bgBtn">Create</button>
+								<button type="submit" class="bgBtn">{{isEditForm?'Update':'Create'}}</button>
 								<button type="button" class="outlineBtn" @click="closePopup('showNoteModal')">
 									Cancel
 								</button>

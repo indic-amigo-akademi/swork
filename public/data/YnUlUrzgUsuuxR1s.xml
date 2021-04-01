@@ -1,49 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plan>
-	<board>
-		<id>0</id>
-		<name>hello</name>
-		<created>2021-02-26T11:11:03.262Z</created>
-		<edited>2021-02-26T11:11:03.262Z</edited>
-
-	</board>
-
-	<board>
-		<id>1</id>
-		<name>hi</name>
-		<created>2021-02-26T11:11:05.876Z</created>
-		<edited>2021-02-26T11:11:05.876Z</edited>
-
-		<note>
-			<id>0</id>
-			<content>My first Project on Symfony</content>
-			<created>2021-02-26T11:11:05.876Z</created>
-			<edited>2021-02-26T11:11:05.876Z</edited>
-			<tag>
-				<value>PHP</value>
-				<index>0</index>
-			</tag>
-			<tag>
-				<value>Symfony</value>
-				<index>1</index>
-			</tag>
-		</note>
-
-		<note>
-			<id>1</id>
-			<content>Hi Boyz
+<?xml version="1.0" encoding="UTF-8"?><plan>
+			<board>
+				<id>0</id>
+				<name>To be done</name>
+				<created>2021-02-26T11:11:03.262Z</created>
+				<edited>2021-04-01T04:16:49.426Z</edited>
+				
+				<note>
+					<id>0</id>
+					<content>Hi Boyz
 **Holla**</content>
-			<created>2021-02-26T11:11:05.876Z</created>
-			<edited>2021-02-26T11:11:05.876Z</edited>
-			<tag>
-				<value>Hello</value>
-				<index>0</index>
-			</tag>
-			<tag>
-				<value>Buy</value>
-				<index>1</index>
-			</tag>
-		</note>
-
-	</board>
-</plan>
+					<created>2021-02-26T11:11:03.262Z</created>
+					<edited>2021-04-01T04:16:49.426Z</edited>
+					<tag><value>Hello</value><index>0</index></tag><tag><value>Buy</value><index>1</index></tag>
+				</note>
+				
+			</board>
+			
+			<board>
+				<id>1</id>
+				<name>Done</name>
+				<created>2021-02-26T11:11:05.876Z</created>
+				<edited>2021-04-01T04:17:23.721Z</edited>
+				
+				<note>
+					<id>1</id>
+					<content>My first project on Symfony is a blog for developers</content>
+					<created>2021-02-26T11:11:05.876Z</created>
+					<edited>2021-04-01T04:19:04.378Z</edited>
+					<tag><value>PHP</value><index>0</index></tag><tag><value>Symfony</value><index>1</index></tag>
+				</note>
+				
+				<note>
+					<id>1</id>
+					<content>Online ecommerce website for Handicrafts</content>
+					<created>2021-02-26T11:11:05.876Z</created>
+					<edited>2021-04-01T04:17:23.721Z</edited>
+					<tag><value>PHP</value><index>0</index></tag><tag><value>MySQL</value><index>2</index></tag><tag><value>Blade</value><index>3</index></tag>
+				</note>
+				
+			</board>
+			</plan>

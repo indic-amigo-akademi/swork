@@ -22,7 +22,7 @@
 							<ul class="plan-list">
 								{% foreach($plans as $plan): %}
 									<li>
-										<a href="[['http://localhost:8241/plan/'.$plan->slug]]">[[$plan->name]]</a>
+										<a href="[['http://localhost:8421/plan/'.$plan->slug]]">[[$plan->name]]</a>
 									</li>
 								{% endforeach; %}
 							</ul>

@@ -14,10 +14,9 @@
 		<link rel="manifest" href="[[asset('/site.webmanifest')]]"/>
 
 		<link rel="stylesheet" type="text/css" href="[[asset('/scss/style.css')]]"/>
-		<script src="https://unpkg.com/vue"></script>
-		<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
-		{# <script src="https://unpkg.com/vuedraggable@next"></script> #}
-		<script src="https://unpkg.com/vuedraggable"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 	</head>
 	<body>
