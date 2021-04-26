@@ -106,4 +106,12 @@
 			box-shadow: 0px 8px 16px 0px rgba($white, 0.2);
 		}
 	}
+
+	.context-menu{
+		background-color: darken($gray, 3%);
+		box-shadow: 0px 12px 24px 0px rgba($white, 0.2);
+		.menu-item:hover{
+			background-color: lighten($gray, 5%);
+		}
+	}
 }

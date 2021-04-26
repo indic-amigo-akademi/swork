@@ -6,13 +6,17 @@
 {% block content %}
 	<main>
 		<div>
-			<vdraggable class="board-list" v-model="boards" group="board" @start="drag=true" @end="drag=false">
-				<div class="board" v-for="board,bkey in boards" :key="bkey" draggable="true">
+			<vdraggable
+				class="board-list" v-model="boards" group="board" @start="drag=true" @end="drag=false">
+				{# Board Component #}
+				<div class="board context-menu-container" v-for="board,bkey in boards" :key="bkey" draggable="true" @contextmenu.prevent="setCurrentBoard(bkey);showBoardContextMenu=true;showNoteContextMenu=false;">
 					<div class="board-id d-none">{{board.id}}</div>
 					<div class="board-header" @dblclick="editBoard(bkey)">{{board.name}}</div>
 					<div class="board-body">
-						<vdraggable v-model="board.notes" group="shared-board">
-							<div class="note" v-for="note,nkey in board.notes" @dblclick="isEditForm = true;setCurrentBoard(bkey);setCurrentNote(nkey);openPopup('showNoteModal');" :key="nkey" draggable="true">
+						<vdraggable
+							v-model="board.notes" group="shared-board">
+							{# Note Component #}
+							<div class="note context-menu-container" v-for="note,nkey in board.notes" @dblclick="isEditForm = true;setCurrentBoard(bkey);setCurrentNote(nkey);openPopup('showNoteModal');" @contextmenu.stop.prevent="setCurrentBoard(bkey);setCurrentNote(nkey);showNoteContextMenu=true;showBoardContextMenu=false;" :key="nkey" draggable="true">
 								<div class="note-id d-none">{{note.id}}</div>
 								<div class="note-tags">
 									<span class="tag" v-for="tag,tkey in note.tags" :key="tkey" :index="tkey">{{tag.value}}</span>
@@ -25,8 +29,20 @@
 									<div class="note-created">{{note.created}}</div>
 									<div class="note-edited">{{note.edited}}</div>
 								</div>
+								<div class="context-menu bottom right" :class="{'d-none': !(showNoteContextMenu && (bkey)==(board_id) && (nkey)==(note_id)) }">
+									<ul class="menu-list">
+										<li class="menu-item" @click="isEditForm = true;setCurrentBoard(bkey);setCurrentNote(nkey);openPopup('showNoteModal');">
+											<i class="fa fa-pen" aria-hidden="true"></i>
+											Edit
+										</li>
+										<li class="menu-item" @click="setCurrentBoard(bkey);setCurrentNote(nkey);deleteNote()">
+											<i class="fa fa-trash" aria-hidden="true"></i>
+											Delete
+										</li>
+									</ul>
+								</div>
 							</div>
-							<div class="note notDraggable" @click="isEditForm = false;openPopup('showNoteModal');setCurrentBoard(bkey)">
+							<div slot="footer" class="note notDraggable" @click="isEditForm = false;openPopup('showNoteModal');setCurrentBoard(bkey)">
 								<div class="new-note">
 									<i class="fas fa-plus"></i>
 								</div>
@@ -37,7 +53,21 @@
 						<div class="board-created">{{board.created}}</div>
 						<div class="board-edited">{{board.edited}}</div>
 					</div>
+
+					<div class="context-menu top right" :class="{'d-none': !(showBoardContextMenu && (bkey)==(board_id)) }">
+						<ul class="menu-list">
+							<li class="menu-item" @click="isEditForm = true;setCurrentBoard(bkey);editBoard(bkey);">
+								<i class="fa fa-pen" aria-hidden="true"></i>
+								Edit
+							</li>
+							<li class="menu-item" @click="setCurrentBoard(bkey);deleteBoard()">
+								<i class="fa fa-trash" aria-hidden="true"></i>
+								Delete
+							</li>
+						</ul>
+					</div>
 				</div>
+				{# / Board Component #}
 
 				<div slot="footer" class="board new-board" @click.prevent="addNewBoard">
 					<div class="board-body">

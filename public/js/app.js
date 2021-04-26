@@ -39,6 +39,8 @@ const App = {
 			showRegisterModal: false,
 			showNoteModal: false,
 			showRegisterForm: false,
+			showNoteContextMenu: false,
+			showBoardContextMenu: false,
 			drag: null,
 			enabled: true,
 			dragging: true,
@@ -49,8 +51,8 @@ const App = {
 			content: '',
 			tags: '',
 			tagsArray: new Set(['PHP', 'Symfony']),
-			board: -1,
-			note: -1,
+			board_id: -1,
+			note_id: -1,
 			alert: {
 				success: '',
 				error: '',
@@ -59,15 +61,9 @@ const App = {
 		};
 	},
 	setup() {
-		onMounted(() => {
-			// console.log('mounted!');
-		});
-		onUpdated(() => {
-			// console.log('updated!');
-		});
-		onUnmounted(() => {
-			// console.log('unmounted!');
-		});
+		onMounted(() => {});
+		onUpdated(() => {});
+		onUnmounted(() => {});
 	},
 	updated() {
 		this.$nextTick(function () {
@@ -82,6 +78,9 @@ const App = {
 			this.showRegisterModal = false;
 			this.showRegisterForm = false;
 			this.showNoteModal = false;
+			this.showNoteContextMenu = false;
+			// this.board = -1;
+			// this.note = -1;
 		},
 		resetInput() {
 			(this.search = ''),
@@ -104,20 +103,22 @@ const App = {
 			this[popup] = true;
 		},
 		setCurrentBoard(key) {
-			this.board = key;
+			this.board_id = key;
 		},
 		setCurrentNote(key) {
-			this.note = key;
+			this.note_id = key;
 			this.resetPopup();
-			const { created, edited, tags, content } = this.boards[
-				parseInt(this.board)
-			].notes[parseInt(this.note)];
-			this.tags = [];
-			tags.forEach((e) => {
-				this.tags.push(e.value);
-			});
-			this.tags = this.tags.join(', ');
-			this.content = content;
+			if (this.isEditForm) {
+				const { tags, content } = this.boards[parseInt(this.board_id)].notes[
+					parseInt(this.note_id)
+				];
+				this.tags = [];
+				tags.forEach((e) => {
+					this.tags.push(e.value);
+				});
+				this.tags = this.tags.join(', ');
+				this.content = content;
+			}
 		},
 		async registerUser() {
 			if (this.cpassword !== this.password) {
@@ -280,11 +281,11 @@ const App = {
 					edited,
 				};
 				this.boards.push(newBoard);
+				await this.saveXML();
 			}
 		},
 		async editBoard(id) {
 			this.resetPopup();
-			console.log(this.boards);
 			const { value: boardName, isConfirmed } = await Swal.fire({
 				...config,
 				title: 'Enter your board',
@@ -301,9 +302,22 @@ const App = {
 			if (isConfirmed) {
 				this.boards[parseInt(id)].name = boardName;
 				this.boards[parseInt(id)].edited = new Date().toISOString();
+				await this.saveXML();
 			}
 		},
-		addNewNote() {
+		async deleteBoard() {
+			const { value } = await Swal.fire({
+				...config,
+				title: 'Do you want to delete this board?',
+				showCancelButton: true,
+			});
+
+			if (value) {
+				this.boards.splice(parseInt(this.board_id), 1);
+				await this.saveXML();
+			}
+		},
+		async addNewNote() {
 			this.resetPopup();
 			const tags = [],
 				newTags = Array.from(
@@ -326,10 +340,26 @@ const App = {
 				tags,
 				content,
 			};
-			this.boards[parseInt(this.board)].notes.push(newNote);
+			this.boards[parseInt(this.board_id)].notes.push(newNote);
 			this.resetInput();
+			await this.saveXML();
 		},
-		editNote() {
+		async deleteNote() {
+			const { value } = await Swal.fire({
+				...config,
+				title: 'Do you want to delete this note?',
+				showCancelButton: true,
+			});
+
+			if (value) {
+				this.boards[parseInt(this.board_id)].notes.splice(
+					parseInt(this.note_id),
+					1
+				);
+				await this.saveXML();
+			}
+		},
+		async editNote() {
 			this.resetPopup();
 			const tags = [],
 				newTags = Array.from(
@@ -349,12 +379,15 @@ const App = {
 				tags,
 				content,
 			};
-			let note = this.boards[parseInt(this.board)].notes[parseInt(this.note)];
-			this.boards[parseInt(this.board)].notes[parseInt(this.note)] = {
+			let note = this.boards[parseInt(this.board_id)].notes[
+				parseInt(this.note)
+			];
+			this.boards[parseInt(this.board_id)].notes[parseInt(this.note)] = {
 				...note,
 				...updatedNote,
 			};
 			this.resetInput();
+			await this.saveXML();
 		},
 		marked(content) {
 			return marked(content);
@@ -383,14 +416,14 @@ const App = {
 				location.href = `http://${location.host}/${this.alert.errors.status}`;
 			} else {
 				this.alert.success = jsonData;
-				await Swal.fire({
-					...config,
-					title: 'Saving success',
-					text: jsonData.msg,
-					icon: 'success',
-				});
+				// await Swal.fire({
+				// 	...config,
+				// 	title: 'Saving success',
+				// 	text: jsonData.msg,
+				// 	icon: 'success',
+				// });
 			}
-			location.reload();
+			// location.reload();
 		},
 		async loadXML() {
 			let slug = location.pathname.split('/');
