@@ -16,7 +16,7 @@ class Query
         $this->database = $database;
         try {
             $this->connection = new PDO(
-                "mysql:host=$this->hostname;dbname=$this->database;charset=utf8",
+                "mysql:host=$this->hostname;charset=utf8",
                 $this->username,
                 $this->password
             );
@@ -26,6 +26,10 @@ class Query
                 PDO::ATTR_ERRMODE,
                 PDO::ERRMODE_EXCEPTION
             );
+
+            $this->connection->exec("CREATE DATABASE IF NOT EXISTS $this->database");
+            $this->connection->exec("USE $this->database");
+
             error_log('Connected successfully' . PHP_EOL);
         } catch (Exception $e) {
             error_log('Connection failed: ' . $e->getMessage() . PHP_EOL);

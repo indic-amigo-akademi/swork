@@ -14,11 +14,14 @@ foreach (glob(MODEL_PATH . '/*.php') as $filename) {
 require_once '../src/helpers/View.php';
 require_once '../src/helpers/Template.php';
 require_once '../src/helpers/Query.php';
+require_once '../src/helpers/Dotenv.php';
 require_once '../src/helpers/Parsedown.php';
 require_once '../src/helpers/Err.php';
 
+(new Dotenv('../.env.local'))->load();
+
 $_SERVER['PHP_AUTH_APP'] = [
-    'database' => new Query(),
+    'database' => new Query(getenv('DB_HOSTNAME'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'), getenv('DB_DATABASE')),
 ];
 
 // $datetime = DateTime::createFromFormat('Y-m-d\TH:i:s+', '2013-02-13T08:35:34.195Z');

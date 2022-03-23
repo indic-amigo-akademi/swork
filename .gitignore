@@ -24,3 +24,6 @@ test/
 # End of https://www.toptal.com/developers/gitignore/api/vscode,vue,laravel
 
 cache
+
+.env.local
+.env.test
