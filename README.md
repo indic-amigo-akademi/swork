@@ -23,3 +23,7 @@ node-sass public/scss/style.scss -o public/scss/
 ```bash
 php commands/migration.php
 ```
+
+## Archive
+
+This repo is archived on 10 September, 2023 and kept public for academic purpose.
